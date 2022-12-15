@@ -9,6 +9,8 @@ import CharItem from '../charItem/CharItem';
 
 import './charList.scss';
 
+// comment
+
 class CharList extends Component {
     state = {
         characters: [],
