@@ -4,6 +4,9 @@ import './CharItem.scss';
 
 class CharItem extends Component{
 
+    // new comment
+
+
     render(){
         const { name, thumbnail, id, itemRef, updateCharId, setActiveCard } = this.props;
         let availableImage = thumbnail.includes('image_not_available');
