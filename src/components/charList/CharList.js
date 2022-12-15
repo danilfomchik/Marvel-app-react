@@ -9,7 +9,7 @@ import CharItem from '../charItem/CharItem';
 
 import './charList.scss';
 
-// comment
+// comment changed
 
 class CharList extends Component {
     state = {
