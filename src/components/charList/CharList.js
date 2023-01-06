@@ -1,42 +1,36 @@
-import React, { Component } from 'react';
-import Spinner from '../spinner/Spinner';
-import MarvelService from '../../services/MarvelService';
-import ErrorMessage from '../errorMessage/ErrorMessage';
+import React, { useState, useEffect, useRef } from "react";
+import Spinner from "../spinner/Spinner";
+import MarvelService from "../../services/MarvelService";
+import ErrorMessage from "../errorMessage/ErrorMessage";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import CharItem from '../charItem/CharItem';
+import CharItem from "../charItem/CharItem";
 
-import './charList.scss';
+import "./charList.scss";
 
-// comment changed
+const CharList = (props) => {
+    const [characters, setCharacters] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    const [newItemLoading, setNewItemLoading] = useState(false);
+    const [offset, setOffset] = useState(210);
+    const [charEnded, setCharEnded] = useState(false);
 
-class CharList extends Component {
-    state = {
-        characters: [],
-        loading: true,
-        error: false,
-        newItemLoading: false,
-        offset: 210,
-        charEnded: false
-    }
+    const marvelService = new MarvelService();
 
-    marvelService = new MarvelService();
+    useEffect(() => {
+        updateCharactersList();
+        // window.addEventListener("scroll", onScrollPage);
 
-    componentDidMount = () => {
-        const { offset } = this.state;
+        // return () => {
+        //     window.removeEventListener("scroll", onScrollPage);
+        // };
+    }, []);
 
-        this.updateCharactersList(offset);
-        window.addEventListener('scroll', this.onScrollPage)
-    }
+    // ДОДЕЛАТЬ ФУНКЦИОНАЛ ПОДГРУЗКИ ПЕРСОНАЖЕЙ ПО СКОРОЛЛУ
 
-    componentWillUnmount = () => {
-        window.removeEventListener('scroll', this.onScrollPage);
-    }
-
-    onScrollPage = () => {
-        const { newItemLoading, offset } = this.state;
-
+    const onScrollPage = () => {
         // Нам потребуется знать высоту документа и высоту экрана:
         const height = document.body.offsetHeight;
         const screenHeight = window.innerHeight;
@@ -47,133 +41,107 @@ class CharList extends Component {
         // // Обозначим порог, по приближении к которому
         // // будем вызывать какое-то действие.
         // // В нашем случае — четверть экрана до конца страницы:
-        const threshold = height - ((screenHeight / 16) - 30);
+        const threshold = height - (screenHeight / 16 - 30);
 
         // // Отслеживаем, где находится низ экрана относительно страницы:
         const position = scrolled + screenHeight;
 
         // Если мы пересекли полосу-порог и новые элементы ещё не подгружаются, вызываем нужное действие.
         if (position >= threshold && !newItemLoading) {
-            console.log(newItemLoading);
-            this.onListLoading();
-
-            console.log(offset);
-            this.updateCharactersList(offset);
+            onListLoading();
+            updateCharactersList(offset);
         }
-    }
+    };
 
-    updateCharactersList = (offset) => {
-        this.onListLoading();
+    const updateCharactersList = (offset) => {
+        onListLoading();
 
-        this.marvelService
+        marvelService
             .getAllCharacters(offset)
-            .then(this.onListLoaded)
-            .catch(this.onError)
-        ;
-    }
+            .then(onListLoaded)
+            .catch(onError);
+    };
 
-    onListLoaded = (newCharacters) => {
+    const onListLoaded = (newCharacters) => {
         let ended = false;
-        if(newCharacters.length < 9){
+        if (newCharacters.length < 9) {
             ended = true;
         }
 
-        this.setState(({offset, characters}) => ({
-            characters: [...characters, ...newCharacters],
-            newItemLoading: false,
-            loading: false,
-            error: false,
-            offset: offset + 9,
-            charEnded: ended
-        }))
-    }
-
-    onListLoading = () => {
-        this.setState({
-            newItemLoading: true,
-        })
-    }
-
-    onError = () => {
-        this.setState({
-            error: true,
-            loading: false
-        })
-    }
-
-
-    
-    itemRefs = [];
-
-    setItemRef = ref => {
-        this.itemRefs.push(ref);
+        setCharacters((prevChars) => [...prevChars, ...newCharacters]);
+        setNewItemLoading(false);
+        setLoading(false);
+        setError(false);
+        setOffset((offset) => offset + 9);
+        setCharEnded(ended);
     };
-    
-    setActiveCharCard = (id) => {
-        this.itemRefs.forEach(card => {
-            card.classList.remove('char__item_selected')
 
-            if(+card.getAttribute('data-id') === id){
-                card.classList.add('char__item_selected');
+    const onListLoading = () => {
+        setNewItemLoading(true);
+    };
+
+    const onError = () => {
+        setLoading(false);
+        setError(true);
+    };
+
+    const itemRefs = useRef([]);
+
+    const setActiveCharCard = (id) => {
+        itemRefs.current.forEach((card) => {
+            card.classList.remove("char__item_selected");
+
+            if (+card.getAttribute("data-id") === id) {
+                card.classList.add("char__item_selected");
             }
-        })
+        });
     };
 
-    renderCards(characters) {
-        const { charId, updateCharId } = this.props;
+    const renderCards = (characters) => {
+        const { updateCharId } = props;
 
         const elements = characters.map((char, i) => {
             return (
-                <CharItem 
-                    setActiveCard={this.setActiveCharCard}
-                    itemRef={this.setItemRef}
-                    key={char.id} 
-                    id={char.id} 
-                    name={char.name} 
-                    thumbnail={char.thumbnail} 
+                <CharItem
+                    setActiveCard={setActiveCharCard}
+                    itemRef={(el) => (itemRefs.current[i] = el)}
+                    key={char.id}
+                    id={char.id}
+                    name={char.name}
+                    thumbnail={char.thumbnail}
                     updateCharId={() => updateCharId(char.id)}
                 />
-            )
+            );
         });
-    
-        return (
-            <ul className="char__grid">
-                {elements}
-            </ul>
-        )
-    }
 
+        return <ul className="char__grid">{elements}</ul>;
+    };
 
-    render(){
-        const {characters, newItemLoading, loading, error, charEnded, offset} = this.state;
+    const cards = renderCards(characters);
 
-        const cards = this.renderCards(characters);
+    const errorMessage = error ? <ErrorMessage /> : null;
+    const spinner = loading ? <Spinner /> : null;
+    const content = !(loading || error) ? cards : null;
 
-        const errorMessage = error ? <ErrorMessage/> : null;
-        const spinner = loading ? <Spinner/> : null;
-        const content = !(loading || error) ? cards : null;
-
-        return (
-            <div className="char__list">
-                {errorMessage}
-                {spinner}
-                {content}
-                <button 
-                    className="button button__main button__long"
-                    onClick={() => this.updateCharactersList(offset)}
-                    disabled={newItemLoading}
-                    style={{display: charEnded ? 'none' : 'block'}}
-                >
-                    <div className="inner">load more</div>
-                </button>
-            </div>
-        )
-    }
-}
-
+    return (
+        <div className="char__list">
+            {errorMessage}
+            {spinner}
+            {content}
+            <button
+                className="button button__main button__long"
+                onClick={() => updateCharactersList(offset)}
+                disabled={newItemLoading}
+                style={{ display: charEnded ? "none" : "block" }}
+            >
+                <div className="inner">load more</div>
+            </button>
+        </div>
+    );
+};
 
 CharList.propTypes = {
-    updateCharId: PropTypes.func.isRequired
-}
+    updateCharId: PropTypes.func.isRequired,
+};
 
 export default CharList;
