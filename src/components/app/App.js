@@ -4,6 +4,7 @@ import AppHeader from "../appHeader/AppHeader";
 import RandomChar from "../randomChar/RandomChar";
 import CharList from "../charList/CharList";
 import CharInfo from "../charInfo/CharInfo";
+import ComicsList from "../comicsList/ComicsList";
 import ErrorBoundery from "../errorBoundary/ErrorBoundery";
 
 import decoration from "../../resources/img/vision.png";
@@ -24,15 +25,18 @@ const App = () => {
                 </ErrorBoundery>
 
                 <div className="char__content">
-                    <ErrorBoundery>
+                    {/* <ErrorBoundery>
                         <CharList updateCharId={updateCharId} charId={charId} />
-                    </ErrorBoundery>
+                    </ErrorBoundery> */}
 
-                    <ErrorBoundery>
+                    {/* <ErrorBoundery>
                         <CharInfo charId={charId} />
-                    </ErrorBoundery>
+                    </ErrorBoundery> */}
                 </div>
-                <img className="bg-decoration" src={decoration} alt="vision" />
+                <ErrorBoundery>
+                    <ComicsList />
+                </ErrorBoundery>
+                {/* <img className="bg-decoration" src={decoration} alt="vision" /> */}
             </main>
         </div>
     );

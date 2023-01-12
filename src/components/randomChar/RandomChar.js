@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Spinner from "../spinner/Spinner";
-import MarvelService from "../../services/MarvelService";
+import useMarvelService from "../../services/MarvelService";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 
 import "./randomChar.scss";
@@ -9,10 +9,8 @@ import mjolnir from "../../resources/img/mjolnir.png";
 
 const RandomChar = () => {
     const [char, setChar] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
 
-    const marvelService = new MarvelService();
+    const { loading, error, getCharacter, clearError } = useMarvelService();
 
     useEffect(() => {
         updateChar();
@@ -26,21 +24,13 @@ const RandomChar = () => {
 
     const onCharLoaded = (char) => {
         setChar(char);
-        setLoading(false);
-        setError(false);
-    };
-
-    const onError = () => {
-        setLoading(false);
-        setError(true);
     };
 
     const updateChar = () => {
+        clearError();
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
 
-        setLoading(true);
-
-        marvelService.getCharacter(id).then(onCharLoaded).catch(onError);
+        getCharacter(id).then(onCharLoaded);
     };
 
     const errorMessage = error ? <ErrorMessage /> : null;
@@ -59,11 +49,7 @@ const RandomChar = () => {
                     Do you want to get to know him better?
                 </p>
                 <p className="randomchar__title">Or choose another one</p>
-                <button
-                    className="button button__main"
-                    disabled={error ? true : false}
-                    onClick={updateChar}
-                >
+                <button className="button button__main" onClick={updateChar}>
                     <div className="inner">try it</div>
                 </button>
                 <img
@@ -78,7 +64,15 @@ const RandomChar = () => {
 
 const View = ({ char }) => {
     const { name, description, thumbnail, homepage, wiki } = char;
-    let availableImage = thumbnail.includes("image_not_available");
+
+    let imgStyle = { objectFit: "cover" };
+
+    if (
+        thumbnail ===
+        "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"
+    ) {
+        imgStyle = { objectFit: "contain" };
+    }
 
     return (
         <div className="randomchar__block">
@@ -86,7 +80,7 @@ const View = ({ char }) => {
                 src={thumbnail}
                 alt={name}
                 className="randomchar__img"
-                style={availableImage ? { objectFit: "contain" } : null}
+                style={imgStyle}
             />
             <div className="randomchar__info">
                 <p className="randomchar__name">{name}</p>

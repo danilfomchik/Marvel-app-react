@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Spinner from "../spinner/Spinner";
-import MarvelService from "../../services/MarvelService";
+import useMarvelService from "../../services/MarvelService";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 
 import PropTypes from "prop-types";
@@ -11,16 +11,14 @@ import "./charList.scss";
 
 const CharList = (props) => {
     const [characters, setCharacters] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
     const [newItemLoading, setNewItemLoading] = useState(false);
     const [offset, setOffset] = useState(210);
     const [charEnded, setCharEnded] = useState(false);
 
-    const marvelService = new MarvelService();
+    const { loading, error, getAllCharacters } = useMarvelService();
 
     useEffect(() => {
-        updateCharactersList();
+        updateCharactersList(offset, true);
         // window.addEventListener("scroll", onScrollPage);
 
         // return () => {
@@ -48,18 +46,15 @@ const CharList = (props) => {
 
         // Если мы пересекли полосу-порог и новые элементы ещё не подгружаются, вызываем нужное действие.
         if (position >= threshold && !newItemLoading) {
-            onListLoading();
             updateCharactersList(offset);
         }
     };
 
-    const updateCharactersList = (offset) => {
-        onListLoading();
+    // вынести в пользовательский хук и использовать для комиксов и для персонажей
+    const updateCharactersList = (offset, initial) => {
+        initial ? setNewItemLoading(false) : setNewItemLoading(true);
 
-        marvelService
-            .getAllCharacters(offset)
-            .then(onListLoaded)
-            .catch(onError);
+        getAllCharacters(offset).then(onListLoaded);
     };
 
     const onListLoaded = (newCharacters) => {
@@ -70,20 +65,10 @@ const CharList = (props) => {
 
         setCharacters((prevChars) => [...prevChars, ...newCharacters]);
         setNewItemLoading(false);
-        setLoading(false);
-        setError(false);
         setOffset((offset) => offset + 9);
         setCharEnded(ended);
     };
-
-    const onListLoading = () => {
-        setNewItemLoading(true);
-    };
-
-    const onError = () => {
-        setLoading(false);
-        setError(true);
-    };
+    // вынести в пользовательский хук и использовать для комиксов и для персонажей
 
     const itemRefs = useRef([]);
 
@@ -120,14 +105,13 @@ const CharList = (props) => {
     const cards = renderCards(characters);
 
     const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = loading ? <Spinner /> : null;
-    const content = !(loading || error) ? cards : null;
+    const spinner = loading && !newItemLoading ? <Spinner /> : null;
 
     return (
         <div className="char__list">
             {errorMessage}
             {spinner}
-            {content}
+            {cards}
             <button
                 className="button button__main button__long"
                 onClick={() => updateCharactersList(offset)}
