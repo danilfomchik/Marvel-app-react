@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import Spinner from "../spinner/Spinner";
-import useMarvelService from "../../services/MarvelService";
 import ErrorMessage from "../errorMessage/ErrorMessage";
+
+import useGetData from "../../hooks/getData";
+import useMarvelService from "../../services/MarvelService";
 
 import PropTypes from "prop-types";
 
@@ -10,23 +12,18 @@ import CharItem from "../charItem/CharItem";
 import "./charList.scss";
 
 const CharList = (props) => {
-    const [characters, setCharacters] = useState([]);
-    const [newItemLoading, setNewItemLoading] = useState(false);
-    const [offset, setOffset] = useState(210);
-    const [charEnded, setCharEnded] = useState(false);
-
     const { loading, error, getAllCharacters } = useMarvelService();
+    const { data, newItemLoading, offset, charEnded, updateDataList } =
+        useGetData(getAllCharacters);
 
     useEffect(() => {
-        updateCharactersList(offset, true);
+        updateDataList(offset, true);
         // window.addEventListener("scroll", onScrollPage);
 
         // return () => {
         //     window.removeEventListener("scroll", onScrollPage);
         // };
     }, []);
-
-    // ДОДЕЛАТЬ ФУНКЦИОНАЛ ПОДГРУЗКИ ПЕРСОНАЖЕЙ ПО СКОРОЛЛУ
 
     const onScrollPage = () => {
         // Нам потребуется знать высоту документа и высоту экрана:
@@ -46,29 +43,9 @@ const CharList = (props) => {
 
         // Если мы пересекли полосу-порог и новые элементы ещё не подгружаются, вызываем нужное действие.
         if (position >= threshold && !newItemLoading) {
-            updateCharactersList(offset);
+            updateDataList(offset, true);
         }
     };
-
-    // вынести в пользовательский хук и использовать для комиксов и для персонажей
-    const updateCharactersList = (offset, initial) => {
-        initial ? setNewItemLoading(false) : setNewItemLoading(true);
-
-        getAllCharacters(offset).then(onListLoaded);
-    };
-
-    const onListLoaded = (newCharacters) => {
-        let ended = false;
-        if (newCharacters.length < 9) {
-            ended = true;
-        }
-
-        setCharacters((prevChars) => [...prevChars, ...newCharacters]);
-        setNewItemLoading(false);
-        setOffset((offset) => offset + 9);
-        setCharEnded(ended);
-    };
-    // вынести в пользовательский хук и использовать для комиксов и для персонажей
 
     const itemRefs = useRef([]);
 
@@ -82,10 +59,10 @@ const CharList = (props) => {
         });
     };
 
-    const renderCards = (characters) => {
+    const renderCards = (data) => {
         const { updateCharId } = props;
 
-        const elements = characters.map((char, i) => {
+        const elements = data.map((char, i) => {
             return (
                 <CharItem
                     setActiveCard={setActiveCharCard}
@@ -102,7 +79,7 @@ const CharList = (props) => {
         return <ul className="char__grid">{elements}</ul>;
     };
 
-    const cards = renderCards(characters);
+    const cards = renderCards(data);
 
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading && !newItemLoading ? <Spinner /> : null;
@@ -114,7 +91,7 @@ const CharList = (props) => {
             {cards}
             <button
                 className="button button__main button__long"
-                onClick={() => updateCharactersList(offset)}
+                onClick={() => updateDataList(offset)}
                 disabled={newItemLoading}
                 style={{ display: charEnded ? "none" : "block" }}
             >

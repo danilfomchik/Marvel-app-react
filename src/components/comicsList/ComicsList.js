@@ -1,48 +1,27 @@
 import { useEffect, useState } from "react";
 import useMarvelService from "../../services/MarvelService";
+import useGetData from "../../hooks/getData";
+
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 
 import "./comicsList.scss";
-import uw from "../../resources/img/UW.png";
-import xMen from "../../resources/img/x-men.png";
 
 const ComicsList = () => {
-    const [comics, setComics] = useState([]);
     const { loading, error, getAllComics } = useMarvelService();
-
-    const [newItemLoading, setNewItemLoading] = useState(false);
-    const [offset, setOffset] = useState(210);
-    const [charEnded, setCharEnded] = useState(false);
+    const { data, newItemLoading, offset, charEnded, updateDataList } =
+        useGetData(getAllComics);
 
     useEffect(() => {
-        updateComicsList(offset, true);
+        updateDataList(offset, true);
     }, []);
-
-    const updateComicsList = (offset, initial) => {
-        initial ? setNewItemLoading(false) : setNewItemLoading(true);
-
-        getAllComics(offset).then(onComicsLoaded);
-    };
-
-    const onComicsLoaded = (newComics) => {
-        let ended = false;
-        if (newComics.length < 9) {
-            ended = true;
-        }
-
-        setComics((prevComics) => [...prevComics, ...newComics]);
-        setNewItemLoading(false);
-        setOffset((offset) => offset + 9);
-        setCharEnded(ended);
-    };
 
     const renderCards = (comics) => {
         const elements = comics.map((char, i) => {
             const { homepage, thumbnail, price, id, title } = char;
 
             return (
-                <li className="comics__item" key={id}>
+                <li className="comics__item" key={i}>
                     <a href={homepage} target="_blank">
                         <img
                             src={thumbnail}
@@ -59,7 +38,7 @@ const ComicsList = () => {
         return <ul className="comics__grid">{elements}</ul>;
     };
 
-    const cards = renderCards(comics);
+    const cards = renderCards(data);
 
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading && !newItemLoading ? <Spinner /> : null;
@@ -73,7 +52,7 @@ const ComicsList = () => {
                 className="button button__main button__long"
                 disabled={newItemLoading}
                 style={{ display: charEnded ? "none" : "block" }}
-                onClick={() => updateComicsList(offset)}
+                onClick={() => updateDataList(offset)}
             >
                 <div className="inner">load more</div>
             </button>
