@@ -1,13 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './components/app/App';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./components/app/App";
 
-import './style/style.scss';
+import "./style/style.scss";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+// ReactDOM.createRoot(document.getElementById("root")).render(
+//     <React.StrictMode>
+//         <App />
+//     </React.StrictMode>
+// );
+
+// если React 18
+ReactDOM.createRoot(document.getElementById("root")).render(
+    <React.Fragment>
+        <App />
+    </React.Fragment>
 );
-

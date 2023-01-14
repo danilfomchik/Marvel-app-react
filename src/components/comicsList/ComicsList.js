@@ -16,6 +16,8 @@ const ComicsList = () => {
         updateDataList(offset, true);
     }, []);
 
+    console.log("comics!");
+
     const renderCards = (comics) => {
         const elements = comics.map((char, i) => {
             const { homepage, thumbnail, price, id, title } = char;
