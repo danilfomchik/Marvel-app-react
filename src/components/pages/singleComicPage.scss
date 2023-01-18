@@ -27,7 +27,8 @@
         color: $main-color;
         margin-top: 25px;
     }
-    &__back {
+    &__back, &__return {
+        cursor: pointer;
         justify-self: end;
         font-weight: bold;
         font-size: 18px;

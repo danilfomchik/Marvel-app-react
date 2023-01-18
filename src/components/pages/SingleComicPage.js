@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 
 import useMarvelService from "../../services/MarvelService";
 
@@ -33,10 +33,6 @@ const SingleComicPage = () => {
         setComicInfo(charInfo);
     };
 
-    {
-        /* //сделать красивую страницу с ошибкой (с возвратом домой) */
-        // <Navigate to="/comics" />
-    }
     const errorMessage = error ? <Page404 /> : null;
 
     const spinner = loading ? <Spinner /> : null;
@@ -62,6 +58,7 @@ const SingleComicPage = () => {
 
 const View = ({ comic }) => {
     const { title, description, pages, thumbnail, price, language } = comic;
+    const navigate = useNavigate();
 
     return (
         <>
@@ -73,9 +70,17 @@ const View = ({ comic }) => {
                 <p className="single-comic__descr">Language: {language}</p>
                 <div className="single-comic__price">{price}$</div>
             </div>
-            <Link to={"/comics"} className="single-comic__back">
-                Back to all
-            </Link>
+            <div className="single-comic__buttons">
+                <Link to={"/comics"} className="single-comic__back">
+                    Back to all
+                </Link>
+                <p
+                    onClick={() => navigate(-1)}
+                    className="single-comic__return"
+                >
+                    Return back
+                </p>
+            </div>
         </>
     );
 };

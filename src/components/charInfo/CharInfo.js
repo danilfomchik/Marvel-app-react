@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import useMarvelService from "../../services/MarvelService";
 import Spinner from "../spinner/Spinner";
@@ -54,9 +55,12 @@ const View = ({ char }) => {
 
     const comicsList = comics.map((item, index) => {
         return (
-            <li key={index} className="char__comics-item">
-                {item.name}
-            </li>
+            <Link
+                to={`/comics/${item.resourceURI.match(/\d+/g)[1]}`}
+                key={index}
+            >
+                <li className="char__comics-item">{item.name}</li>
+            </Link>
         );
     });
 

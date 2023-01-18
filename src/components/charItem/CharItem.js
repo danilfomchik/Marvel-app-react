@@ -1,5 +1,3 @@
-import { Component } from "react";
-
 import "./CharItem.scss";
 
 const CharItem = (props) => {
