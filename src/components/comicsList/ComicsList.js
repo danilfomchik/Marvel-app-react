@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import useMarvelService from "../../services/MarvelService";
 import useGetData from "../../hooks/getData";
 
@@ -16,7 +17,7 @@ const ComicsList = () => {
         updateDataList(offset, true);
     }, []);
 
-    console.log("comics!");
+    // console.log("comics!");
 
     const renderCards = (comics) => {
         const elements = comics.map((char, i) => {
@@ -24,7 +25,7 @@ const ComicsList = () => {
 
             return (
                 <li className="comics__item" key={i}>
-                    <a href={homepage} target="_blank">
+                    <Link to={`/comics/${id}`}>
                         <img
                             src={thumbnail}
                             alt="ultimate war"
@@ -32,7 +33,7 @@ const ComicsList = () => {
                         />
                         <div className="comics__item-name">{title}</div>
                         <div className="comics__item-price">{price}$</div>
-                    </a>
+                    </Link>
                 </li>
             );
         });

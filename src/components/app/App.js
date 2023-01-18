@@ -1,27 +1,28 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import AppHeader from "../appHeader/AppHeader";
 
 //pages
-import { MainPage, ComicsPage } from "../pages";
+import { MainPage, ComicsPage, Page404, SingleComicPage } from "../pages";
 
 const App = () => {
     return (
-        <Router>
-            <div className="app">
-                <AppHeader />
-                <main>
-                    <Switch>
-                        <Route exact path="/">
-                            <MainPage />
-                        </Route>
-                        <Route exact path="/comics">
-                            <ComicsPage />
-                        </Route>
-                    </Switch>
-                </main>
-            </div>
-        </Router>
+        <div className="app">
+            <AppHeader />
+            <main>
+                <Routes>
+                    <Route path="/" element={<MainPage />} />
+                    <Route path="/comics" element={<ComicsPage />}>
+                        {/* //:comicId придумываем сами - это уникальный идентификатор каждого комикса */}
+                        <Route path=":comicId" element={<SingleComicPage />} />
+                        {/* <Route path="*" element={<Page404 />} /> */}
+                    </Route>
+
+                    {/* //сделать красивую страницу с ошибкой c правильным переходом назад */}
+                    <Route path="*" element={<Page404 />} />
+                </Routes>
+            </main>
+        </div>
     );
 };
 

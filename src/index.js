@@ -1,3 +1,5 @@
+import { BrowserRouter as Router } from "react-router-dom";
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./components/app/App";
@@ -13,6 +15,8 @@ import "./style/style.scss";
 // если React 18
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.Fragment>
-        <App />
+        <Router>
+            <App />
+        </Router>
     </React.Fragment>
 );

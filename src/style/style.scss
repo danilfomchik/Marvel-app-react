@@ -69,6 +69,16 @@ main {
     animation: pulse 1.5s ease-in-out .5s infinite
 }
 
+.return-back__btn{
+    font-size: 25px;
+    cursor: pointer;
+    padding: 30px 0px 0px 0px;
+    font-weight: bold;
+    &:hover{
+        color: #9F0013;
+    }
+}
+
 @keyframes pulse {
     0% {
         opacity: 1

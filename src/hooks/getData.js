@@ -6,11 +6,14 @@ const useGetData = (getDataFunc) => {
     const [offset, setOffset] = useState(210);
     const [charEnded, setCharEnded] = useState(false);
 
-    const updateDataList = useCallback((offset, initial) => {
-        initial ? setNewItemLoading(false) : setNewItemLoading(true);
+    const updateDataList = useCallback(
+        (offset, initial) => {
+            initial ? setNewItemLoading(false) : setNewItemLoading(true);
 
-        getDataFunc(offset).then(onDataLoaded);
-    });
+            getDataFunc(offset).then(onDataLoaded);
+        },
+        [offset]
+    );
 
     const onDataLoaded = (newData) => {
         let ended = false;

@@ -29,17 +29,33 @@ const useMarvelService = () => {
         return res.data.results.map(_transformComic);
     };
 
-    const _transformComic = (char) => {
+    const getComic = async (id) => {
+        const res = await request(`${_apiBase}comics/${id}?${_apiKey}`);
+
+        return _transformComic(res.data.results[0]);
+    };
+
+    const _transformComic = (comic) => {
+        let description = comic.description;
+
+        if (!description) {
+            description = "There is no description for this comic...";
+        }
+
         return {
-            id: char.id,
-            title: char.title,
-            thumbnail: char.thumbnail.path + "." + char.thumbnail.extension,
-            price: char.prices[0].price,
-            homepage: char.urls[0].url,
+            id: comic.id,
+            title: comic.title,
+            description: description,
+            pages: comic.pageCount,
+            thumbnail: comic.thumbnail.path + "." + comic.thumbnail.extension,
+            language: comic.textObjects.language || "en-us",
+            price: comic.prices[0].price,
+            homepage: comic.urls[0].url,
         };
     };
 
     const _transformCharacter = (char) => {
+        // console.log(char.comics);
         let description = char.description;
 
         if (description.length === 0) {
@@ -65,6 +81,7 @@ const useMarvelService = () => {
         getAllCharacters,
         getCharacter,
         getAllComics,
+        getComic,
         clearError,
     };
 };
