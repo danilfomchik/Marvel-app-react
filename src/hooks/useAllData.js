@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-const useGetData = (getDataFunc) => {
+const useAllData = (getDataFunc) => {
     const [data, setData] = useState([]);
     const [newItemLoading, setNewItemLoading] = useState(false);
     const [offset, setOffset] = useState(210);
@@ -36,4 +36,4 @@ const useGetData = (getDataFunc) => {
     };
 };
 
-export default useGetData;
+export default useAllData;

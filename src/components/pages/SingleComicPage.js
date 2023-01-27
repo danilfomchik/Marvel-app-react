@@ -1,43 +1,24 @@
-import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
 import useMarvelService from "../../services/MarvelService";
+import useSingleData from "../../hooks/useSingleData";
 
 import Spinner from "../spinner/Spinner";
-import ErrorMessage from "../errorMessage/ErrorMessage";
 import Page404 from "./404";
 
 import "./singleComicPage.scss";
 
 const SingleComicPage = () => {
-    const [comicInfo, setComicInfo] = useState(null);
-
-    const { loading, error, getComic, clearError } = useMarvelService();
     const { comicId } = useParams();
+    console.log(comicId);
 
-    useEffect(() => {
-        updateComicInfo();
-    }, [comicId]);
-
-    const updateComicInfo = () => {
-        if (!comicId) {
-            return;
-        }
-
-        clearError();
-
-        getComic(comicId).then(onComicLoaded);
-    };
-
-    const onComicLoaded = (charInfo) => {
-        setComicInfo(charInfo);
-    };
+    const { loading, error, getComic } = useMarvelService();
+    const { dataInfo } = useSingleData(comicId, getComic);
 
     const errorMessage = error ? <Page404 /> : null;
-
     const spinner = loading ? <Spinner /> : null;
-    const content = !(loading || error || !comicInfo) ? (
-        <View comic={comicInfo} />
+    const content = !(loading || error || !dataInfo) ? (
+        <View comic={dataInfo} />
     ) : null;
 
     return (

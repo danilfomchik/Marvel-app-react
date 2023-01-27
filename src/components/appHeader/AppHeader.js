@@ -2,6 +2,8 @@ import { Link, NavLink } from "react-router-dom";
 
 import "./appHeader.scss";
 
+const setActiveClass = ({ isActive }) => (isActive ? "active-link" : null);
+
 const AppHeader = () => {
     return (
         <header className="app__header">
@@ -13,13 +15,13 @@ const AppHeader = () => {
             <nav className="app__menu">
                 <ul>
                     <li>
-                        <NavLink end activeclassname="active" to="/">
+                        <NavLink end className={setActiveClass} to="/">
                             Characters
                         </NavLink>
                     </li>
                     /
                     <li>
-                        <NavLink activeclassname="active" to="/comics">
+                        <NavLink className={setActiveClass} to="/comics">
                             Comics
                         </NavLink>
                     </li>

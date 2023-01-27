@@ -55,7 +55,6 @@ const useMarvelService = () => {
     };
 
     const _transformCharacter = (char) => {
-        // console.log(char.comics);
         let description = char.description;
 
         if (description.length === 0) {

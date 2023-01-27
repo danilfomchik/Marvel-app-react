@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import useMarvelService from "../../services/MarvelService";
+import useSingleData from "../../hooks/useSingleData";
+
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import Skeleton from "../skeleton/Skeleton";
@@ -9,34 +10,14 @@ import Skeleton from "../skeleton/Skeleton";
 import "./charInfo.scss";
 
 const CharInfo = (props) => {
-    const [charInfo, setCharInfo] = useState(null);
-
-    const { loading, error, getCharacter, clearError } = useMarvelService();
-
-    useEffect(() => {
-        updateCharInfo();
-    }, [props.charId]);
-
-    const updateCharInfo = () => {
-        const { charId } = props;
-        if (!charId) {
-            return;
-        }
-
-        clearError();
-
-        getCharacter(charId).then(onCharLoaded);
-    };
-
-    const onCharLoaded = (charInfo) => {
-        setCharInfo(charInfo);
-    };
+    const { loading, error, getCharacter } = useMarvelService();
+    const { dataInfo } = useSingleData(props.charId, getCharacter);
 
     const errorMessage = error ? <ErrorMessage /> : null;
-    const skeleton = !(loading || error || charInfo) ? <Skeleton /> : null;
+    const skeleton = !(loading || error || dataInfo) ? <Skeleton /> : null;
     const spinner = loading ? <Spinner /> : null;
-    const content = !(loading || error || !charInfo) ? (
-        <View char={charInfo} />
+    const content = !(loading || error || !dataInfo) ? (
+        <View char={dataInfo} />
     ) : null;
 
     return (
@@ -58,8 +39,9 @@ const View = ({ char }) => {
             <Link
                 to={`/comics/${item.resourceURI.match(/\d+/g)[1]}`}
                 key={index}
+                className="char__comics-item"
             >
-                <li className="char__comics-item">{item.name}</li>
+                <li>{item.name}</li>
             </Link>
         );
     });

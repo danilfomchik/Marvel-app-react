@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useMarvelService from "../../services/MarvelService";
-import useGetData from "../../hooks/getData";
+import useAllData from "../../hooks/useAllData";
 
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
@@ -11,7 +11,7 @@ import "./comicsList.scss";
 const ComicsList = () => {
     const { loading, error, getAllComics } = useMarvelService();
     const { data, newItemLoading, offset, charEnded, updateDataList } =
-        useGetData(getAllComics);
+        useAllData(getAllComics);
 
     useEffect(() => {
         updateDataList(offset, true);

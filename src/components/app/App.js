@@ -15,7 +15,6 @@ const App = () => {
                     <Route path="/comics" element={<ComicsPage />}>
                         {/* //:comicId придумываем сами - это уникальный идентификатор каждого комикса */}
                         <Route path=":comicId" element={<SingleComicPage />} />
-                        {/* <Route path="*" element={<Page404 />} /> */}
                     </Route>
 
                     {/* //сделать красивую страницу с ошибкой c правильным переходом назад */}

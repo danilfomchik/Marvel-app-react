@@ -10,9 +10,9 @@ const ComicsPage = () => {
     return (
         <>
             <AppBanner />
-            {/* <ErrorBoundery> */}
-            <>{outlet ? <Outlet /> : <ComicsList />}</>
-            {/* </ErrorBoundery> */}
+            <ErrorBoundery>
+                <>{outlet ? <Outlet /> : <ComicsList />}</>
+            </ErrorBoundery>
         </>
     );
 };
