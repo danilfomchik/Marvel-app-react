@@ -2,29 +2,33 @@ import { useState, useEffect } from "react";
 
 import useMarvelService from "../services/MarvelService";
 
-const useSingleData = (id, getDataFunc) => {
+const useSingleData = (param, getDataFunc) => {
     const [dataInfo, setDataInfo] = useState(null);
     const { clearError } = useMarvelService();
 
-    useEffect(() => {
-        updateCharInfo();
-    }, [id]);
+    // console.log(param, getDataFunc);
 
-    const updateCharInfo = () => {
-        if (!id) {
+    // useEffect(() => {
+    //     updateCharInfo();
+    // }, [param]);
+
+    const updateData = () => {
+        if (!param) {
             return;
         }
 
         clearError();
 
-        getDataFunc(id).then(onCharLoaded);
+        getDataFunc(param).then(onCharLoaded);
     };
 
     const onCharLoaded = (dataInfo) => {
+        // console.log(dataInfo);
+
         setDataInfo(dataInfo);
     };
 
-    return { dataInfo };
+    return { dataInfo, updateData };
 };
 
 export default useSingleData;

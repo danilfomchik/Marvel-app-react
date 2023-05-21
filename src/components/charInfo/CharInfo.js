@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { CSSTransition } from "react-transition-group";
 
 import useMarvelService from "../../services/MarvelService";
 import useSingleData from "../../hooks/useSingleData";
@@ -11,7 +13,11 @@ import "./charInfo.scss";
 
 const CharInfo = (props) => {
     const { loading, error, getCharacter } = useMarvelService();
-    const { dataInfo } = useSingleData(props.charId, getCharacter);
+    const { dataInfo, updateData } = useSingleData(props.charId, getCharacter);
+
+    useEffect(() => {
+        updateData();
+    }, [props.charId]);
 
     const errorMessage = error ? <ErrorMessage /> : null;
     const skeleton = !(loading || error || dataInfo) ? <Skeleton /> : null;
@@ -23,7 +29,11 @@ const CharInfo = (props) => {
     return (
         <div className="char__info">
             {skeleton}
-            {content}
+
+            <CSSTransition in={!loading} timeout={300} classNames="char-info">
+                <>{content}</>
+            </CSSTransition>
+
             {spinner}
             {errorMessage}
         </div>

@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { CSSTransition } from "react-transition-group";
+
 import Spinner from "../spinner/Spinner";
 import useMarvelService from "../../services/MarvelService";
 import ErrorMessage from "../errorMessage/ErrorMessage";
@@ -41,7 +43,15 @@ const RandomChar = () => {
         <div className="randomchar">
             {errorMessage}
             {spinner}
-            {content}
+
+            <CSSTransition
+                in={!loading}
+                timeout={300}
+                classNames="randomchar-animation"
+            >
+                <>{content}</>
+            </CSSTransition>
+
             <div className="randomchar__static">
                 <p className="randomchar__title">
                     Random character for today!

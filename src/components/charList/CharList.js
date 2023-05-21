@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 
@@ -47,36 +49,51 @@ const CharList = (props) => {
         }
     };
 
-    const itemRefs = useRef([]);
+    // const itemRefs = useRef([]);
 
-    const setActiveCharCard = (id) => {
-        itemRefs.current.forEach((card) => {
-            card.classList.remove("char__item_selected");
+    // const setActiveCharCard = (id) => {
+    //     itemRefs.current.forEach((card) => {
+    //         card.classList.remove("char__item_selected");
 
-            if (+card.getAttribute("data-id") === id) {
-                card.classList.add("char__item_selected");
-            }
-        });
-    };
+    //         if (+card.getAttribute("data-id") === id) {
+    //             card.classList.add("char__item_selected");
+    //         }
+    //     });
+    // };
 
     const renderCards = (data) => {
         const { updateCharId } = props;
+        const timeout = 300;
 
         const elements = data.map((char, i) => {
             return (
-                <CharItem
-                    setActiveCard={setActiveCharCard}
-                    itemRef={(el) => (itemRefs.current[i] = el)}
+                <CSSTransition
                     key={char.id}
-                    id={char.id}
-                    name={char.name}
-                    thumbnail={char.thumbnail}
-                    updateCharId={() => updateCharId(char.id)}
-                />
+                    timeout={timeout}
+                    // onEnter={() => setTimeout((prev) => prev + 20)}
+                    // onExited={() => setTimeout(100)}
+                    classNames="char-item"
+                    unmountOnExit
+                >
+                    <CharItem
+                        // setActiveCard={setActiveCharCard}
+                        // itemRef={(el) => (itemRefs.current[i] = el)}
+                        key={char.id}
+                        id={char.id}
+                        name={char.name}
+                        isActive={props.charId === char.id}
+                        thumbnail={char.thumbnail}
+                        updateCharId={() => updateCharId(char.id)}
+                    />
+                </CSSTransition>
             );
         });
 
-        return <ul className="char__grid">{elements}</ul>;
+        return (
+            <ul className="char__grid">
+                <TransitionGroup component={null}>{elements}</TransitionGroup>
+            </ul>
+        );
     };
 
     const cards = renderCards(data);
