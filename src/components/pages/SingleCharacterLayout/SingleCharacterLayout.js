@@ -1,30 +1,30 @@
 import { useNavigate, useParams, Link } from "react-router-dom";
 
-import "./singleComicPage.scss";
+import "./singleCharacterLayout.scss";
 
 const SingleCharacterLayout = ({ data }) => {
     const { name, description, pages, thumbnail, price, language } = data;
     const navigate = useNavigate();
 
     return (
-        <>
+        <div className="single-character">
             <img src={thumbnail} alt={name} style={{ width: "293px" }} />
-            <div className="single-comic__info">
-                <h2 className="single-comic__name">{name}</h2>
-                <p className="single-comic__descr">{description}</p>
+            <div className="single-character__info">
+                <h2 className="single-character__name">{name}</h2>
+                <p className="single-character__descr">{description}</p>
             </div>
-            <div className="single-comic__buttons">
-                <Link to={"/"} className="single-comic__back">
+            <div className="single-character__buttons">
+                <Link to={"/"} className="single-character__back">
                     Back to all
                 </Link>
                 <p
                     onClick={() => navigate(-1)}
-                    className="single-comic__return"
+                    className="single-character__return"
                 >
                     Return back
                 </p>
             </div>
-        </>
+        </div>
     );
 };
 

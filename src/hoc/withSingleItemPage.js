@@ -28,18 +28,11 @@ const withSingleItemPage = (WrappedComponent, dataType) => {
         ) : null;
 
         return (
-            <div
-                className="single-comic"
-                style={
-                    error || loading
-                        ? { gridTemplateColumns: "none" }
-                        : { gridTemplateColumns: "293px 550px auto" }
-                }
-            >
+            <>
                 {content}
                 {spinner}
                 {errorMessage}
-            </div>
+            </>
         );
     };
 };

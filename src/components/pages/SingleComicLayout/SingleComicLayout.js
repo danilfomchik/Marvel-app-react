@@ -1,13 +1,13 @@
 import { useNavigate, Link } from "react-router-dom";
 
-import "./singleComicPage.scss";
+import "./singleComicLayout.scss";
 
 const SingleComicLayout = ({ data }) => {
     const { title, description, pages, thumbnail, price, language } = data;
     const navigate = useNavigate();
 
     return (
-        <>
+        <div className="single-comic">
             <img src={thumbnail} alt={title} className="single-comic__img" />
             <div className="single-comic__info">
                 <h2 className="single-comic__name">{title}</h2>
@@ -27,7 +27,7 @@ const SingleComicLayout = ({ data }) => {
                     Return back
                 </p>
             </div>
-        </>
+        </div>
     );
 };
 

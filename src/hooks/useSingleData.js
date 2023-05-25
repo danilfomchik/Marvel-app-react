@@ -6,12 +6,6 @@ const useSingleData = (param, getDataFunc) => {
     const [dataInfo, setDataInfo] = useState(null);
     const { clearError } = useMarvelService();
 
-    // console.log(param, getDataFunc);
-
-    // useEffect(() => {
-    //     updateCharInfo();
-    // }, [param]);
-
     const updateData = () => {
         if (!param) {
             return;
@@ -23,8 +17,6 @@ const useSingleData = (param, getDataFunc) => {
     };
 
     const onCharLoaded = (dataInfo) => {
-        // console.log(dataInfo);
-
         setDataInfo(dataInfo);
     };
 
