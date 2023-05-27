@@ -86,9 +86,12 @@ const SearchCharacterForm = () => {
     //     </div>
     // );
 
-    const charList = list && !loading && !error && <CharList data={list} />;
-    const loadingMessage = loading && !error && <Spinner />;
-    const errorMessage = !loading &&
+    const charList = isListVisible && list && !loading && !error && (
+        <CharList data={list} />
+    );
+    const loadingMessage = loading && !error && isListVisible && <Spinner />;
+    const errorMessage = isListVisible &&
+        !loading &&
         queryName.length > 0 &&
         list.length === 0 && <Error />;
 
@@ -122,7 +125,7 @@ const SearchCharacterForm = () => {
             </div>
 
             <div className="char__search-list">
-                {isListVisible && charList}
+                {charList}
                 {loadingMessage}
                 {errorMessage}
                 {/* {statusMessage} */}
