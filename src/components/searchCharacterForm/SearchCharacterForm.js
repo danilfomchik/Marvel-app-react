@@ -57,7 +57,6 @@ const SearchCharacterForm = () => {
         //     status: "success",
         //     message: `There is! Visit ${data.name} page?`,
         // });
-
         setList(data);
     };
 
