@@ -28,19 +28,13 @@ const App = () => {
             <main>
                 <Suspense fallback={<Spinner />}>
                     <Routes>
-                        <Route path="/" element={<MainPage />}>
-                            <Route
-                                path="characters/:itemId"
-                                element={<CharPage />}
-                            />
-                        </Route>
-
-                        <Route path="/comics" element={<ComicsPage />}>
-                            {/* //:comicId придумываем сами - это уникальный идентификатор каждого комикса */}
-                            <Route path=":itemId" element={<ComicPage />} />
-                        </Route>
-
-                        {/* //сделать красивую страницу с ошибкой c правильным переходом назад */}
+                        <Route path="/" element={<MainPage />} />
+                        <Route
+                            path="characters/:itemId"
+                            element={<CharPage />}
+                        />
+                        <Route path="/comics" element={<ComicsPage />} />
+                        <Route path="/comics/:itemId" element={<ComicPage />} />
                         <Route path="*" element={<Page404 />} />
                     </Routes>
                 </Suspense>

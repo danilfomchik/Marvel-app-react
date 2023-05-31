@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useOutlet, Outlet } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import RandomChar from "../randomChar/RandomChar";
 import CharList from "../charList/CharList";
@@ -19,63 +20,44 @@ const MainPage = () => {
 
     return (
         <>
-            {outlet ? (
+            {/* {outlet ? (
                 <Outlet />
-            ) : (
-                <>
+            ) : ( */}
+            <>
+                {/* // устанавливает мета теги и тд для каждой страницы */}
+                <Helmet>
+                    <meta
+                        name="description"
+                        content="Marvel information portal"
+                    />
+                    <meta
+                        name="keywords"
+                        content="Marvel, Marvel information portal, Marvel characters, Marvel comics "
+                    />
+                    <title>Marvel information portal</title>
+                </Helmet>
+                <ErrorBoundery>
+                    <RandomChar />
+                </ErrorBoundery>
+                <div className="char__content">
                     <ErrorBoundery>
-                        <RandomChar />
+                        <CharList updateCharId={updateCharId} charId={charId} />
                     </ErrorBoundery>
 
-                    <div className="char__content">
+                    <div>
                         <ErrorBoundery>
-                            <CharList
-                                updateCharId={updateCharId}
-                                charId={charId}
-                            />
+                            <CharInfo charId={charId} />
                         </ErrorBoundery>
-
-                        <div>
-                            <ErrorBoundery>
-                                <CharInfo charId={charId} />
-                            </ErrorBoundery>
-                            <ErrorBoundery>
-                                <SearchCharacterForm />
-                            </ErrorBoundery>
-                        </div>
+                        <ErrorBoundery>
+                            <SearchCharacterForm />
+                        </ErrorBoundery>
                     </div>
-                    <img
-                        className="bg-decoration"
-                        src={decoration}
-                        alt="vision"
-                    />
-                </>
-            )}
+                </div>
+                <img className="bg-decoration" src={decoration} alt="vision" />
+            </>
+            {/* )} */}
         </>
     );
 };
 
 export default MainPage;
-{
-    /* <>
-            <ErrorBoundery>
-                <RandomChar />
-            </ErrorBoundery>
-
-            <div className="char__content">
-                <ErrorBoundery>
-                    <CharList updateCharId={updateCharId} charId={charId} />
-                </ErrorBoundery>
-
-                <div>
-                    <ErrorBoundery>
-                        <CharInfo charId={charId} />
-                    </ErrorBoundery>
-                    <ErrorBoundery>
-                        <SearchCharacterForm />
-                    </ErrorBoundery>
-                </div>
-            </div>
-            <img className="bg-decoration" src={decoration} alt="vision" />
-        </> */
-}
