@@ -6,6 +6,7 @@ import ErrorMessage from "../errorMessage/ErrorMessage";
 
 import useAllData from "../../hooks/useAllData";
 import useMarvelService from "../../services/MarvelService";
+import setMultipleContent from "../../unils/setMultipleContent";
 
 import PropTypes from "prop-types";
 
@@ -14,9 +15,10 @@ import CharItem from "../charItem/CharItem";
 import "./charList.scss";
 
 const CharList = (props) => {
-    const { loading, error, getAllCharacters } = useMarvelService();
+    const { loading, error, process, setProcess, getAllCharacters } =
+        useMarvelService();
     const { data, newItemLoading, offset, charEnded, updateDataList } =
-        useAllData(getAllCharacters);
+        useAllData(getAllCharacters, setProcess);
 
     useEffect(() => {
         updateDataList(offset, true);
@@ -96,16 +98,21 @@ const CharList = (props) => {
         );
     };
 
-    const cards = renderCards(data);
+    // const cards = renderCards(data);
 
-    const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = loading && !newItemLoading ? <Spinner /> : null;
+    // const errorMessage = error ? <ErrorMessage /> : null;
+    // const spinner = loading && !newItemLoading ? <Spinner /> : null;
 
     return (
         <div className="char__list">
-            {errorMessage}
+            {/* {errorMessage}
             {spinner}
-            {cards}
+            {cards} */}
+            {setMultipleContent(
+                process,
+                () => renderCards(data),
+                newItemLoading
+            )}
             <button
                 className="button button__main button__long"
                 onClick={() => updateDataList(offset)}

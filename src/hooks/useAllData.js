@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-const useAllData = (getDataFunc) => {
+const useAllData = (getDataFunc, setProcess) => {
     const [data, setData] = useState([]);
     const [newItemLoading, setNewItemLoading] = useState(false);
     const [offset, setOffset] = useState(210);
@@ -10,7 +10,9 @@ const useAllData = (getDataFunc) => {
         (offset, initial) => {
             initial ? setNewItemLoading(false) : setNewItemLoading(true);
 
-            getDataFunc(offset).then(onDataLoaded);
+            getDataFunc(offset)
+                .then(onDataLoaded)
+                .then(() => setProcess("confirmed"));
         },
         [offset]
     );

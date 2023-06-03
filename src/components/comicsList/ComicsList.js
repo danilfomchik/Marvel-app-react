@@ -8,6 +8,7 @@ import {
 
 import useMarvelService from "../../services/MarvelService";
 import useAllData from "../../hooks/useAllData";
+import setMultipleContent from "../../unils/setMultipleContent";
 
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
@@ -15,9 +16,10 @@ import ErrorMessage from "../errorMessage/ErrorMessage";
 import "./comicsList.scss";
 
 const ComicsList = () => {
-    const { loading, error, getAllComics } = useMarvelService();
+    const { loading, error, process, setProcess, getAllComics } =
+        useMarvelService();
     const { data, newItemLoading, offset, charEnded, updateDataList } =
-        useAllData(getAllComics);
+        useAllData(getAllComics, setProcess);
 
     const nodeRef = useRef(null);
 
@@ -71,15 +73,21 @@ const ComicsList = () => {
         );
     };
 
-    const cards = renderCards(data);
+    // const cards = renderCards(data);
 
-    const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = loading && !newItemLoading ? <Spinner /> : null;
+    // const errorMessage = error ? <ErrorMessage /> : null;
+    // const spinner = loading && !newItemLoading ? <Spinner /> : null;
 
     return (
         <div className="comics__list">
-            {errorMessage}
-            {spinner}
+            {/* {errorMessage} */}
+            {/* {spinner} */}
+
+            {setMultipleContent(
+                process,
+                () => renderCards(data),
+                newItemLoading
+            )}
 
             {/* <TransitionGroup> */}
             {/* <CSSTransition
@@ -88,7 +96,7 @@ const ComicsList = () => {
                 classNames="comics__item"
                 // unmountOnExit
             > */}
-            {cards}
+            {/* {cards} */}
             {/* </CSSTransition> */}
             {/* </TransitionGroup> */}
 

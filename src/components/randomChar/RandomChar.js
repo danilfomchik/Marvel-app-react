@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { CSSTransition } from "react-transition-group";
 
+import useSingleData from "../../hooks/useSingleData";
+import setSingleContent from "../../unils/setSingleContent";
+
 import Spinner from "../spinner/Spinner";
 import useMarvelService from "../../services/MarvelService";
 import ErrorMessage from "../errorMessage/ErrorMessage";
@@ -10,46 +13,44 @@ import "./randomChar.scss";
 import mjolnir from "../../resources/img/mjolnir.png";
 
 const RandomChar = () => {
-    const [char, setChar] = useState({});
+    const randomId = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
+    const [id, setId] = useState(randomId);
 
-    const { loading, error, getCharacter, clearError } = useMarvelService();
+    const { loading, error, process, setProcess, getCharacter, clearError } =
+        useMarvelService();
+    const { dataInfo, updateData } = useSingleData(
+        id,
+        getCharacter,
+        setProcess,
+        clearError
+    );
 
     useEffect(() => {
-        updateChar();
+        updateData();
 
         // const timerId = setInterval(updateChar, 5000);
 
         // return () => {
         //     clearInterval(timerId);
         // };
-    }, []);
+    }, [id]);
 
-    const onCharLoaded = (char) => {
-        setChar(char);
-    };
-
-    const updateChar = () => {
-        clearError();
-        const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
-
-        getCharacter(id).then(onCharLoaded);
-    };
-
-    const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = loading ? <Spinner /> : null;
-    const content = !(loading || error) ? <View char={char} /> : null;
+    // const errorMessage = error ? <ErrorMessage /> : null;
+    // const spinner = loading ? <Spinner /> : null;
+    // const content = !(loading || error) ? <View char={char} /> : null;
 
     return (
         <div className="randomchar">
-            {errorMessage}
-            {spinner}
+            {/* {errorMessage} */}
+            {/* {spinner} */}
 
             <CSSTransition
                 in={!loading}
                 timeout={300}
                 classNames="randomchar-animation"
             >
-                <>{content}</>
+                {/* <>{content}</> */}
+                <>{setSingleContent(process, View, dataInfo)}</>
             </CSSTransition>
 
             <div className="randomchar__static">
@@ -59,7 +60,10 @@ const RandomChar = () => {
                     Do you want to get to know him better?
                 </p>
                 <p className="randomchar__title">Or choose another one</p>
-                <button className="button button__main" onClick={updateChar}>
+                <button
+                    className="button button__main"
+                    onClick={() => setId(randomId)}
+                >
                     <div className="inner">try it</div>
                 </button>
                 <img
@@ -72,8 +76,8 @@ const RandomChar = () => {
     );
 };
 
-const View = ({ char }) => {
-    const { name, description, thumbnail, homepage, wiki } = char;
+const View = ({ data }) => {
+    const { name, description, thumbnail, homepage, wiki } = data;
 
     let imgStyle = { objectFit: "cover" };
 

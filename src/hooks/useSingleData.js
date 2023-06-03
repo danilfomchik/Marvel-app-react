@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 
 import useMarvelService from "../services/MarvelService";
 
-const useSingleData = (param, getDataFunc) => {
+const useSingleData = (param, getDataFunc, setProcess, clearError) => {
     const [dataInfo, setDataInfo] = useState(null);
-    const { clearError } = useMarvelService();
+    // const { clearError } = useMarvelService();
 
     const updateData = () => {
         if (!param) {
@@ -13,7 +13,9 @@ const useSingleData = (param, getDataFunc) => {
 
         clearError();
 
-        getDataFunc(param).then(onCharLoaded);
+        getDataFunc(param)
+            .then(onCharLoaded)
+            .then(() => setProcess("confirmed"));
     };
 
     const onCharLoaded = (dataInfo) => {
