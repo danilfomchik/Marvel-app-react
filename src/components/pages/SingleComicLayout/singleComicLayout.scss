@@ -1,9 +1,9 @@
-@import "../../../style/variables.scss";
+@import '../../../style/variables.scss';
 
 .single-comic {
     margin-top: 50px;
     display: flex;
-    align-items: flex-star;
+    align-items: flex-start;
     gap: 30px;
 
     &__info-container {

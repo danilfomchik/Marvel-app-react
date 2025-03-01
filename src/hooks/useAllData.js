@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import {useCallback, useState} from 'react';
 
 const useAllData = (getDataFunc, setProcess) => {
     const [data, setData] = useState([]);
@@ -12,20 +12,20 @@ const useAllData = (getDataFunc, setProcess) => {
 
             getDataFunc(offset)
                 .then(onDataLoaded)
-                .then(() => setProcess("confirmed"));
+                .then(() => setProcess('confirmed'));
         },
-        [offset]
+        [offset],
     );
 
-    const onDataLoaded = (newData) => {
+    const onDataLoaded = newData => {
         let ended = false;
         if (newData.length < 9) {
             ended = true;
         }
 
-        setData((prevData) => [...prevData, ...newData]);
+        setData(prevData => [...prevData, ...newData]);
         setNewItemLoading(false);
-        setOffset((offset) => offset + 9);
+        setOffset(offset => offset + 9);
         setCharEnded(ended);
     };
 
