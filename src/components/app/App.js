@@ -4,8 +4,6 @@ import { Route, Routes } from "react-router-dom";
 import AppHeader from "../appHeader/AppHeader";
 import withSingleItemPage from "../../hoc/withSingleItemPage";
 
-//pages
-// import { MainPage, ComicsPage, SingleComicPage } from "../pages";
 import Spinner from "../spinner/Spinner";
 
 const Page404 = lazy(() => import("../pages/404"));

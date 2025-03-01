@@ -18,14 +18,22 @@ const SingleCharacterLayout = ({ data }) => {
                 <title>{name}</title>
             </Helmet>
 
-            <img src={thumbnail} alt={name} style={{ width: "293px" }} />
-            <div className="single-character__info">
-                <h2 className="single-character__name">{name}</h2>
-                <p className="single-character__descr">{description}</p>
+            <div className="single-character__info-container">
+                <img
+                    src={thumbnail}
+                    alt={name}
+                    className="single-character__img"
+                />
+
+                <div className="single-character__info">
+                    <h2 className="single-character__name">{name}</h2>
+                    <p className="single-character__descr">{description}</p>
+                </div>
             </div>
+
             <div className="single-character__buttons">
                 <Link to={"/"} className="single-character__back">
-                    Back to all
+                    Return home
                 </Link>
                 <p
                     onClick={() => navigate(-1)}

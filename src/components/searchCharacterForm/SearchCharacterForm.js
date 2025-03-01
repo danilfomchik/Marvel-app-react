@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, memo } from "react";
 import {
     Formik,
     Form,
@@ -21,23 +21,18 @@ const setSingleContent = (process, ViewComponent, data, queryName) => {
     switch (process) {
         case "waiting":
             return null;
-            break;
         case "loading":
             return <Spinner />;
-            break;
         case "error":
             return !data && queryName.length > 0 && <Error />;
-            break;
         case "confirmed":
             return data.length > 0 ? <ViewComponent data={data} /> : <Error />;
-            break;
         default:
             throw new Error("Unexpected process state");
-            break;
     }
 };
 
-const SearchCharacterForm = () => {
+const SearchCharacterForm = memo(() => {
     const [queryName, setQueryName] = useState("");
     const [list, setList] = useState([]);
     const [isListVisible, setIsListVisible] = useState(false);
@@ -62,15 +57,6 @@ const SearchCharacterForm = () => {
         updateData();
     }, [queryName]);
 
-    // const charList = isListVisible && dataInfo && !loading && !error && (
-    //     <CharList data={dataInfo} />
-    // );
-    // const loadingMessage = loading && !error && isListVisible && <Spinner />;
-    // const errorMessage = isListVisible &&
-    //     !loading &&
-    //     queryName.length > 0 &&
-    //     !dataInfo && <Error />;
-
     return (
         <div className={`char__search-form ${isListVisible ? "active" : ""}`}>
             <label className="char__search-label" htmlFor="name">
@@ -84,35 +70,21 @@ const SearchCharacterForm = () => {
                     placeholder="Enter name"
                     onChange={(e) => {
                         setQueryName(e.target.value);
-                        // updateData(e.target.value);
                     }}
                     onFocus={() => setIsListVisible(true)}
                     value={queryName}
                 />
-
-                {/* <button
-                    disabled={loading}
-                    className="button button__main"
-                    type="submit"
-                >
-                    <div className="inner">find</div>
-                </button> */}
             </div>
 
             <div className="char__search-list">
-                {/* {charList}
-                {loadingMessage}
-                {errorMessage} */}
                 {isListVisible &&
                     setSingleContent(
                         process,
-                        CharList,
+                        List,
                         dataInfo,
                         isListVisible,
                         queryName
                     )}
-                {/* {statusMessage} */}
-                {/* {errorMessage} */}
             </div>
 
             {isListVisible && (
@@ -125,11 +97,11 @@ const SearchCharacterForm = () => {
             )}
         </div>
     );
-};
+});
 
 export default SearchCharacterForm;
 
-const CharList = ({ data }) => {
+const List = ({ data }) => {
     return data.map((char) => {
         return (
             <Link to={`characters/${char.id}`} key={char.id}>

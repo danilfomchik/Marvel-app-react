@@ -1,4 +1,4 @@
-@import '../../style/variables.scss';
+@import "../../style/variables.scss";
 
 .randomchar-animation-enter {
     opacity: 0;
@@ -16,14 +16,18 @@
 }
 
 .randomchar {
-    display: grid;
-    grid-template-columns: repeat(2, 50%);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
+
     &__block {
+        display: flex;
+        gap: 30px;
+    }
+    &__content {
+        flex: 1 1 50%;
         padding: 40px 35px;
-        display: grid;
-        grid-template-columns: 180px auto;
-        column-gap: 30px;
     }
     &__img {
         width: 180px;
@@ -31,10 +35,11 @@
         object-fit: cover;
     }
     &__info {
-        display: grid;
-        grid-template-rows: minmax(29px, auto) 90px 38px;
-        row-gap: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
         padding-top: 3px;
+        flex: 1;
     }
     &__name {
         font-weight: bold;
@@ -43,18 +48,25 @@
         text-transform: uppercase;
     }
     &__descr {
+        flex: 1;
         font-size: 14px;
         line-height: 18px;
     }
     &__btns {
-        a:nth-child(1) {
-            margin-right: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+
+        .button {
+            flex: 1;
         }
     }
     &__static {
+        flex: 1 1 50%;
         padding: 40px 35px;
         background-color: $dark;
         position: relative;
+
         button {
             margin-top: 13px;
         }
@@ -64,7 +76,7 @@
         font-size: 24px;
         line-height: 32px;
         letter-spacing: -0.045em;
-        color: #FFFFFF;
+        color: #ffffff;
         &:nth-child(2) {
             margin-top: 33px;
         }
@@ -72,6 +84,41 @@
     &__decoration {
         position: absolute;
         bottom: 14px;
-        right: -37px;
+        right: 25px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .randomchar {
+        flex-direction: column-reverse;
+    }
+
+    .randomchar__img {
+        width: 40%;
+    }
+}
+
+@media (max-width: 768px) {
+    .randomchar {
+        &__decoration {
+            width: 100px;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .randomchar {
+        &__block {
+            flex-direction: column;
+        }
+
+        &__img {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        &__decoration {
+            display: none;
+        }
     }
 }
