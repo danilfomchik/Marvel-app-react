@@ -1,9 +1,7 @@
 import {lazy, Suspense} from 'react';
 import {Route, Routes} from 'react-router-dom';
-
 import AppHeader from '../appHeader/AppHeader';
 import withSingleItemPage from '../../hoc/withSingleItemPage';
-
 import Spinner from '../spinner/Spinner';
 
 const Page404 = lazy(() => import('../pages/404'));

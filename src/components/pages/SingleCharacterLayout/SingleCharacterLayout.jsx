@@ -1,6 +1,5 @@
 import {useNavigate, useParams, Link} from 'react-router-dom';
 import {Helmet} from 'react-helmet';
-
 import './singleCharacterLayout.scss';
 
 const SingleCharacterLayout = ({data}) => {

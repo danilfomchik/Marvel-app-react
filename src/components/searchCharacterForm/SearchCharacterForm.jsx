@@ -5,7 +5,6 @@ import {Link} from 'react-router-dom';
 
 import useMarvelService from '../../services/MarvelService';
 import useSingleData from '../../hooks/useSingleData';
-
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Portal from '../Portal/Portal';

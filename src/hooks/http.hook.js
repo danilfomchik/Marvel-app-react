@@ -28,8 +28,6 @@ export const useHttp = () => {
                 setError(e.message);
                 setProcess('error');
 
-                console.log('error');
-
                 throw e;
             }
         },
