@@ -28,7 +28,6 @@ export const useHttp = () => {
                 const data = await response.json();
 
                 setLoading(false);
-                // setProcess("confirmed");
 
                 return data;
             } catch (e) {

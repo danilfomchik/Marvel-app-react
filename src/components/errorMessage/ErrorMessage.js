@@ -1,19 +1,8 @@
 import img from "./error.gif";
+import "./errorMessage.scss";
 
 const ErrorMessage = () => {
-    return (
-        <img
-            src={img}
-            style={{
-                display: "block",
-                width: "250px",
-                height: "250px",
-                objectFit: "contain",
-                margin: "0 auto",
-            }}
-            alt="This is error"
-        />
-    );
+    return <img src={img} className="error-img" alt="This is error" />;
 };
 
 export default ErrorMessage;

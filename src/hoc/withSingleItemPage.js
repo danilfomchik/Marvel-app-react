@@ -32,21 +32,7 @@ const withSingleItemPage = (WrappedComponent, dataType) => {
             updateData();
         }, [itemId]);
 
-        // const errorMessage = error ? <Page404 /> : null;
-        // const spinner = loading ? <Spinner /> : null;
-        // const content = !(loading || error || !dataInfo) ? (
-        //     <WrappedComponent data={dataInfo} />
-        // ) : null;
-
-        return (
-            <>
-                {/* {content}
-                {spinner}
-                {errorMessage} */}
-
-                {setSingleContent(process, WrappedComponent, dataInfo)}
-            </>
-        );
+        return <>{setSingleContent(process, WrappedComponent, dataInfo)}</>;
     };
 };
 

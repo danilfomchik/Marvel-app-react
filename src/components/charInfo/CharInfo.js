@@ -6,10 +6,6 @@ import useMarvelService from "../../services/MarvelService";
 import useSingleData from "../../hooks/useSingleData";
 import setSingleContent from "../../unils/setSingleContent";
 
-// import Spinner from "../spinner/Spinner";
-// import ErrorMessage from "../errorMessage/ErrorMessage";
-// import Skeleton from "../skeleton/Skeleton";
-
 import "./charInfo.scss";
 
 const CharInfo = (props) => {
@@ -26,24 +22,9 @@ const CharInfo = (props) => {
         updateData();
     }, [props.charId]);
 
-    // const errorMessage = error ? <ErrorMessage /> : null;
-    // const skeleton = !(loading || error || dataInfo) ? <Skeleton /> : null;
-    // const spinner = loading ? <Spinner /> : null;
-    // const content = !(loading || error || !dataInfo) ? (
-    //     <View char={dataInfo} />
-    // ) : null;
-
     return (
         <div className="char__info">
             {setSingleContent(process, View, dataInfo)}
-            {/* {skeleton}
-
-            <CSSTransition in={!loading} timeout={300} classNames="char-info">
-                <>{content}</>
-            </CSSTransition>
-
-            {spinner}
-            {errorMessage} */}
         </div>
     );
 };
@@ -72,7 +53,7 @@ const View = ({ data }) => {
                     alt={name}
                     style={availableImage ? { objectFit: "contain" } : null}
                 />
-                <div>
+                <div className="char__basics-container">
                     <div className="char__info-name">{name}</div>
                     <div className="char__btns">
                         <a

@@ -4,7 +4,6 @@ import useMarvelService from "../services/MarvelService";
 
 const useSingleData = (param, getDataFunc, setProcess, clearError) => {
     const [dataInfo, setDataInfo] = useState(null);
-    // const { clearError } = useMarvelService();
 
     const updateData = () => {
         if (!param) {

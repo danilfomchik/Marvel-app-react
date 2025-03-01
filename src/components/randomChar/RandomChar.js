@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { CSSTransition } from "react-transition-group";
 
 import useSingleData from "../../hooks/useSingleData";
@@ -12,7 +12,7 @@ import "./randomChar.scss";
 
 import mjolnir from "../../resources/img/mjolnir.png";
 
-const RandomChar = () => {
+const RandomChar = memo(() => {
     const randomId = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
     const [id, setId] = useState(randomId);
 
@@ -27,30 +27,18 @@ const RandomChar = () => {
 
     useEffect(() => {
         updateData();
-
-        // const timerId = setInterval(updateChar, 5000);
-
-        // return () => {
-        //     clearInterval(timerId);
-        // };
     }, [id]);
-
-    // const errorMessage = error ? <ErrorMessage /> : null;
-    // const spinner = loading ? <Spinner /> : null;
-    // const content = !(loading || error) ? <View char={char} /> : null;
 
     return (
         <div className="randomchar">
-            {/* {errorMessage} */}
-            {/* {spinner} */}
-
             <CSSTransition
                 in={!loading}
                 timeout={300}
                 classNames="randomchar-animation"
             >
-                {/* <>{content}</> */}
-                <>{setSingleContent(process, View, dataInfo)}</>
+                <div className="randomchar__content">
+                    {setSingleContent(process, View, dataInfo)}
+                </div>
             </CSSTransition>
 
             <div className="randomchar__static">
@@ -74,7 +62,7 @@ const RandomChar = () => {
             </div>
         </div>
     );
-};
+});
 
 const View = ({ data }) => {
     const { name, description, thumbnail, homepage, wiki } = data;
@@ -85,7 +73,7 @@ const View = ({ data }) => {
         thumbnail ===
         "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg"
     ) {
-        imgStyle = { objectFit: "contain" };
+        imgStyle = { objectFit: "fill" };
     }
 
     return (

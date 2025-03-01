@@ -1,14 +1,30 @@
-@import '../../../style/variables.scss';
+@import "../../../style/variables.scss";
 
 .single-character {
     margin-top: 50px;
-    display: grid;
-    grid-template-columns: 293px 550px auto;
-    column-gap: 50px;
+    display: flex;
     align-items: start;
+    gap: 30px;
+
+    &__info-container {
+        display: flex;
+        align-items: flex-start;
+        flex: 1;
+        width: 100%;
+        gap: 30px;
+    }
+
     &__img {
-        width: 293px;
-        height: 450px;
+        width: 30%;
+        max-width: 293px;
+        max-height: 450px;
+        margin: 0 auto;
+    }
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        width: 70%;
     }
     &__name {
         font-weight: bold;
@@ -18,16 +34,22 @@
     &__descr {
         font-size: 18px;
         line-height: 24px;
-        margin-top: 25px;
     }
     &__price {
         font-weight: bold;
         font-size: 24px;
         line-height: 32px;
         color: $main-color;
-        margin-top: 25px;
     }
-    &__back, &__return {
+    &__buttons {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 20px;
+        min-width: 200px;
+    }
+    &__back,
+    &__return {
         cursor: pointer;
         justify-self: end;
         font-weight: bold;
@@ -35,6 +57,26 @@
         line-height: 24px;
         &:hover {
             color: $main-color;
+        }
+    }
+}
+
+@media (max-width: 1024px) {
+    .single-character {
+        flex-direction: column-reverse;
+        align-items: flex-end;
+    }
+}
+
+@media (max-width: 768px) {
+    .single-character {
+        &__info-container {
+            flex-direction: column;
+        }
+
+        &__img,
+        &__info {
+            width: 100%;
         }
     }
 }

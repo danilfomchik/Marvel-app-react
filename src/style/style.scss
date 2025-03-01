@@ -1,6 +1,6 @@
-@import './variables';
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
-@import './button';
+@import "./variables";
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap");
+@import "./button";
 
 * {
     font-family: "Roboto Condensed", sans-serif;
@@ -44,17 +44,18 @@ p {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
-    margin: 0; 
+    margin: 0;
 }
 
 .app {
-    width: 1100px;
+    max-width: 1280px;
     margin: 0 auto;
-    padding: 50px 0 50px 0;
+    padding: 50px 20px;
     position: relative;
+
     .bg-decoration {
         position: absolute;
-        right: -174px;
+        right: 0;
         bottom: -70px;
         z-index: -1;
     }
@@ -66,23 +67,20 @@ main {
 }
 
 .pulse {
-    animation: pulse 1.5s ease-in-out .5s infinite
+    animation: pulse 1.5s ease-in-out 0.5s infinite;
 }
 
-.return-back__btn{
+.return-back__btn {
     font-size: 25px;
     cursor: pointer;
     padding: 30px 0px 0px 0px;
     font-weight: bold;
-    &:hover{
-        color: #9F0013;
+    &:hover {
+        color: #9f0013;
     }
 }
 
-.overlay{
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
+.overlay {
     width: 100vw;
     height: 100vh;
     background-color: rgba($color: #000000, $alpha: 0.4);
@@ -94,12 +92,18 @@ main {
 
 @keyframes pulse {
     0% {
-        opacity: 1
+        opacity: 1;
     }
     50% {
-        opacity: .4
+        opacity: 0.4;
     }
     100% {
-        opacity: 1
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .app {
+        padding: 30px 20px;
     }
 }

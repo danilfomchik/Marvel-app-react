@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useOutlet, Outlet } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import RandomChar from "../randomChar/RandomChar";
@@ -12,50 +11,35 @@ import decoration from "../../resources/img/vision.png";
 
 const MainPage = () => {
     const [charId, setCharId] = useState(null);
-    const outlet = useOutlet();
-
-    const updateCharId = (charId) => {
-        setCharId(charId);
-    };
 
     return (
         <>
-            {/* {outlet ? (
-                <Outlet />
-            ) : ( */}
-            <>
-                {/* // устанавливает мета теги и тд для каждой страницы */}
-                <Helmet>
-                    <meta
-                        name="description"
-                        content="Marvel information portal"
-                    />
-                    <meta
-                        name="keywords"
-                        content="Marvel, Marvel information portal, Marvel characters, Marvel comics "
-                    />
-                    <title>Marvel information portal</title>
-                </Helmet>
+            <Helmet>
+                <meta name="description" content="Marvel information portal" />
+                <meta
+                    name="keywords"
+                    content="Marvel, Marvel information portal, Marvel characters, Marvel comics "
+                />
+                <title>Marvel information portal</title>
+            </Helmet>
+            <ErrorBoundery>
+                <RandomChar />
+            </ErrorBoundery>
+            <div className="char__content">
                 <ErrorBoundery>
-                    <RandomChar />
+                    <CharList setCharId={setCharId} charId={charId} />
                 </ErrorBoundery>
-                <div className="char__content">
-                    <ErrorBoundery>
-                        <CharList updateCharId={updateCharId} charId={charId} />
-                    </ErrorBoundery>
 
-                    <div>
-                        <ErrorBoundery>
-                            <CharInfo charId={charId} />
-                        </ErrorBoundery>
-                        <ErrorBoundery>
-                            <SearchCharacterForm />
-                        </ErrorBoundery>
-                    </div>
+                <div className="char__info-container">
+                    <ErrorBoundery>
+                        <CharInfo charId={charId} />
+                    </ErrorBoundery>
+                    <ErrorBoundery>
+                        <SearchCharacterForm />
+                    </ErrorBoundery>
                 </div>
-                <img className="bg-decoration" src={decoration} alt="vision" />
-            </>
-            {/* )} */}
+            </div>
+            <img className="bg-decoration" src={decoration} alt="vision" />
         </>
     );
 };

@@ -5,10 +5,11 @@ const CharItem = (props) => {
         name,
         thumbnail,
         id,
-        itemRef,
-        updateCharId,
-        setActiveCard,
+        itemRefs,
+        setCharId,
+        focusOnItem,
         isActive,
+        index,
     } = props;
 
     let availableImage = thumbnail.includes("image_not_available");
@@ -18,28 +19,22 @@ const CharItem = (props) => {
     return (
         <>
             <li
-                className={
-                    isActive ? `${cardClass} char__item_selected` : cardClass
-                }
+                className={cardClass}
                 tabIndex={0}
                 onClick={() => {
-                    updateCharId();
-                    // setActiveCard(id);
+                    setCharId(id);
+                    focusOnItem(index);
                 }}
                 onKeyPress={(e) => {
                     if (e.key === " " || e.key === "Enter") {
-                        updateCharId();
-                        // setActiveCard(id);
+                        setCharId(id);
+                        focusOnItem(index);
                     }
                 }}
                 data-id={id}
-                ref={itemRef}
+                ref={(el) => (itemRefs.current[index] = el)}
             >
-                <img
-                    src={thumbnail}
-                    alt={name}
-                    style={availableImage ? { objectFit: "contain" } : null}
-                />
+                <img src={thumbnail} alt={name} />
                 <div className="char__name">{name}</div>
             </li>
         </>

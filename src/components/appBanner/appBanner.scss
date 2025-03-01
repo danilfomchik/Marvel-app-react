@@ -1,20 +1,53 @@
-@import '../../style/variables.scss';
+@import "../../style/variables.scss";
 
 .app {
     &__banner {
         width: 100%;
         background-color: $dark;
-        height: 100px;
         padding: 0 25px 0 45px;
-        display: grid;
-        grid-template-columns: 152px auto 133px;
+        display: flex;
+        gap: 60px;
+        justify-content: flex-start;
+        align-items: center;
+
         &-text {
+            flex: 1;
             font-weight: bold;
             font-size: 24px;
             line-height: 32px;
-            color: #FFFFFF;
-            padding-left: 83px;
-            padding-top: 18px;
+            color: #ffffff;
+            padding: 18px 0px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .app {
+        &__banner {
+            gap: 20px;
+            padding: 0 15px 0 25px;
+
+            &-text {
+                font-size: 20px;
+                line-height: 28px;
+            }
+
+            img {
+                width: 100px;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .app {
+        &__banner {
+            gap: 15px;
+            padding: 0 10px 0 15px;
+
+            img {
+                width: 60px;
+            }
         }
     }
 }
