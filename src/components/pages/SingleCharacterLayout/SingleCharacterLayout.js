@@ -1,29 +1,22 @@
-import { useNavigate, useParams, Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import {useNavigate, useParams, Link} from 'react-router-dom';
+import {Helmet} from 'react-helmet';
 
-import "./singleCharacterLayout.scss";
+import './singleCharacterLayout.scss';
 
-const SingleCharacterLayout = ({ data }) => {
-    const { name, description, pages, thumbnail, price, language } = data;
+const SingleCharacterLayout = ({data}) => {
+    const {name, description, pages, thumbnail, price, language} = data;
     const navigate = useNavigate();
 
     return (
         <div className="single-character">
             <Helmet>
                 <meta name="description" content={`${name} character`} />
-                <meta
-                    name="keywords"
-                    content={`${name}, ${name} character, ${description}`}
-                />
+                <meta name="keywords" content={`${name}, ${name} character, ${description}`} />
                 <title>{name}</title>
             </Helmet>
 
             <div className="single-character__info-container">
-                <img
-                    src={thumbnail}
-                    alt={name}
-                    className="single-character__img"
-                />
+                <img src={thumbnail} alt={name} className="single-character__img" />
 
                 <div className="single-character__info">
                     <h2 className="single-character__name">{name}</h2>
@@ -32,13 +25,10 @@ const SingleCharacterLayout = ({ data }) => {
             </div>
 
             <div className="single-character__buttons">
-                <Link to={"/"} className="single-character__back">
+                <Link to={'/'} className="single-character__back">
                     Return home
                 </Link>
-                <p
-                    onClick={() => navigate(-1)}
-                    className="single-character__return"
-                >
+                <p onClick={() => navigate(-1)} className="single-character__return">
                     Return back
                 </p>
             </div>

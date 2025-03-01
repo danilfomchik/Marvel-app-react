@@ -1,9 +1,9 @@
-import { useOutlet, Outlet } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import {useOutlet, Outlet} from 'react-router-dom';
+import {Helmet} from 'react-helmet';
 
-import ComicsList from "../comicsList/ComicsList";
-import ErrorBoundery from "../errorBoundary/ErrorBoundery";
-import AppBanner from "../appBanner/AppBanner";
+import ComicsList from '../comicsList/ComicsList';
+import ErrorBoundery from '../errorBoundary/ErrorBoundery';
+import AppBanner from '../appBanner/AppBanner';
 
 const ComicsPage = () => {
     const outlet = useOutlet();

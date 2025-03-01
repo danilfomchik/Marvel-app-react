@@ -1,19 +1,19 @@
-import Spinner from "../components/spinner/Spinner";
-import ErrorMessage from "../components/errorMessage/ErrorMessage";
-import Skeleton from "../components/skeleton/Skeleton";
+import Spinner from '../components/spinner/Spinner';
+import ErrorMessage from '../components/errorMessage/ErrorMessage';
+import Skeleton from '../components/skeleton/Skeleton';
 
 const setMultipleContent = (process, ViewComponent, newItemLoading) => {
     switch (process) {
-        case "waiting":
+        case 'waiting':
             return <Spinner />;
-        case "loading":
+        case 'loading':
             return newItemLoading ? <ViewComponent /> : <Spinner />;
-        case "error":
+        case 'error':
             return <ErrorMessage />;
-        case "confirmed":
+        case 'confirmed':
             return <ViewComponent />;
         default:
-            throw new Error("Unexpected process state");
+            throw new Error('Unexpected process state');
     }
 };
 

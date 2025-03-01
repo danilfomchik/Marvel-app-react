@@ -1,64 +1,47 @@
-import React, { useState, useEffect, useRef, memo } from "react";
-import {
-    Formik,
-    Form,
-    Field,
-    ErrorMessage as FormikErrorMessage,
-} from "formik";
-import * as yup from "yup";
-import { Link } from "react-router-dom";
+import React, {useState, useEffect, useRef, memo} from 'react';
+import {Formik, Form, Field, ErrorMessage as FormikErrorMessage} from 'formik';
+import * as yup from 'yup';
+import {Link} from 'react-router-dom';
 
-import useMarvelService from "../../services/MarvelService";
-import useSingleData from "../../hooks/useSingleData";
+import useMarvelService from '../../services/MarvelService';
+import useSingleData from '../../hooks/useSingleData';
 
-import Spinner from "../spinner/Spinner";
-import ErrorMessage from "../errorMessage/ErrorMessage";
-import Portal from "../Portal/Portal";
+import Spinner from '../spinner/Spinner';
+import ErrorMessage from '../errorMessage/ErrorMessage';
+import Portal from '../Portal/Portal';
 
-import "./search-character-form.scss";
+import './search-character-form.scss';
 
 const setSingleContent = (process, ViewComponent, data, queryName) => {
     switch (process) {
-        case "waiting":
+        case 'waiting':
             return null;
-        case "loading":
+        case 'loading':
             return <Spinner />;
-        case "error":
+        case 'error':
             return !data && queryName.length > 0 && <Error />;
-        case "confirmed":
+        case 'confirmed':
             return data.length > 0 ? <ViewComponent data={data} /> : <Error />;
         default:
-            throw new Error("Unexpected process state");
+            throw new Error('Unexpected process state');
     }
 };
 
 const SearchCharacterForm = memo(() => {
-    const [queryName, setQueryName] = useState("");
+    const [queryName, setQueryName] = useState('');
     const [list, setList] = useState([]);
     const [isListVisible, setIsListVisible] = useState(false);
 
-    const {
-        loading,
-        error,
-        process,
-        setProcess,
-        clearError,
-        getCharacterByName,
-    } = useMarvelService();
+    const {loading, error, process, setProcess, clearError, getCharacterByName} = useMarvelService();
 
-    const { dataInfo, updateData } = useSingleData(
-        queryName,
-        getCharacterByName,
-        setProcess,
-        clearError
-    );
+    const {dataInfo, updateData} = useSingleData(queryName, getCharacterByName, setProcess, clearError);
 
     useEffect(() => {
         updateData();
     }, [queryName]);
 
     return (
-        <div className={`char__search-form ${isListVisible ? "active" : ""}`}>
+        <div className={`char__search-form ${isListVisible ? 'active' : ''}`}>
             <label className="char__search-label" htmlFor="name">
                 Or find a character by name:
             </label>
@@ -68,7 +51,7 @@ const SearchCharacterForm = memo(() => {
                     id="name"
                     type="text"
                     placeholder="Enter name"
-                    onChange={(e) => {
+                    onChange={e => {
                         setQueryName(e.target.value);
                     }}
                     onFocus={() => setIsListVisible(true)}
@@ -77,22 +60,12 @@ const SearchCharacterForm = memo(() => {
             </div>
 
             <div className="char__search-list">
-                {isListVisible &&
-                    setSingleContent(
-                        process,
-                        List,
-                        dataInfo,
-                        isListVisible,
-                        queryName
-                    )}
+                {isListVisible && setSingleContent(process, List, dataInfo, isListVisible, queryName)}
             </div>
 
             {isListVisible && (
                 <Portal>
-                    <div
-                        className="overlay"
-                        onClick={() => setIsListVisible(false)}
-                    ></div>
+                    <div className="overlay" onClick={() => setIsListVisible(false)}></div>
                 </Portal>
             )}
         </div>
@@ -101,16 +74,12 @@ const SearchCharacterForm = memo(() => {
 
 export default SearchCharacterForm;
 
-const List = ({ data }) => {
-    return data.map((char) => {
+const List = ({data}) => {
+    return data.map(char => {
         return (
             <Link to={`characters/${char.id}`} key={char.id}>
                 <div className="char__search-list__item">
-                    <img
-                        className="list__item-avatar"
-                        src={char.thumbnail}
-                        alt={char.name}
-                    />
+                    <img className="list__item-avatar" src={char.thumbnail} alt={char.name} />
                     <h3 className="list__item-name">{char.name}</h3>
                 </div>
             </Link>
@@ -120,7 +89,7 @@ const List = ({ data }) => {
 
 const Error = () => {
     return (
-        <div style={{ padding: "15px 0px 0px", textAlign: "center" }}>
+        <div style={{padding: '15px 0px 0px', textAlign: 'center'}}>
             <ErrorMessage />
             <h3>Nothing to show...</h3>
         </div>

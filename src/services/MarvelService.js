@@ -1,54 +1,47 @@
-import { useHttp } from "../hooks/http.hook";
+import {useHttp} from '../hooks/http.hook';
 
 const _apiKey = `apikey=${process.env.REACT_APP_API_KEY}`;
 const _apiBase = process.env.REACT_APP_API_URL;
 const _baseOffset = 210;
 
 const useMarvelService = () => {
-    const { loading, request, error, clearError, process, setProcess } =
-        useHttp();
+    const {loading, request, error, clearError, process, setProcess} = useHttp();
 
     const getAllCharacters = async (offset = _baseOffset) => {
-        const res = await request(
-            `${_apiBase}characters?limit=9&offset=${offset}&${_apiKey}`
-        );
+        const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${_apiKey}`);
 
         return res.data.results.map(_transformCharacter);
     };
 
-    const getCharacter = async (id) => {
+    const getCharacter = async id => {
         const res = await request(`${_apiBase}characters/${id}?${_apiKey}`);
 
         return _transformCharacter(res.data.results[0]);
     };
 
     const getAllComics = async (offset = _baseOffset) => {
-        const res = await request(
-            `${_apiBase}comics?limit=12&offset=${offset}&${_apiKey}`
-        );
+        const res = await request(`${_apiBase}comics?limit=12&offset=${offset}&${_apiKey}`);
 
         return res.data.results.map(_transformComic);
     };
 
-    const getComic = async (id) => {
+    const getComic = async id => {
         const res = await request(`${_apiBase}comics/${id}?${_apiKey}`);
 
         return _transformComic(res.data.results[0]);
     };
 
-    const getCharacterByName = async (name) => {
-        const res = await request(
-            `${_apiBase}characters?nameStartsWith=${name}&${_apiKey}`
-        );
+    const getCharacterByName = async name => {
+        const res = await request(`${_apiBase}characters?nameStartsWith=${name}&${_apiKey}`);
 
         return res.data.results.map(_transformCharacter);
     };
 
-    const _transformComic = (comic) => {
+    const _transformComic = comic => {
         let description = comic.description;
 
         if (!description) {
-            description = "There is no description for this comic...";
+            description = 'There is no description for this comic...';
         }
 
         return {
@@ -56,20 +49,20 @@ const useMarvelService = () => {
             title: comic.title,
             description: description,
             pages: comic.pageCount,
-            thumbnail: comic.thumbnail.path + "." + comic.thumbnail.extension,
-            language: comic.textObjects.language || "en-us",
+            thumbnail: comic.thumbnail.path + '.' + comic.thumbnail.extension,
+            language: comic.textObjects.language || 'en-us',
             price: comic.prices[0].price,
             homepage: comic.urls[0].url,
         };
     };
 
-    const _transformCharacter = (char) => {
+    const _transformCharacter = char => {
         let description = char.description;
 
         if (description.length === 0) {
-            description = "There is no description for this character...";
+            description = 'There is no description for this character...';
         } else if (char.description.length >= 180) {
-            description = description.substring(0, 180) + " ...";
+            description = description.substring(0, 180) + ' ...';
         }
 
         return {
@@ -77,7 +70,7 @@ const useMarvelService = () => {
             id: char.id,
             name: char.name,
             description: description,
-            thumbnail: char.thumbnail.path + "." + char.thumbnail.extension,
+            thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
             homepage: char.urls[0].url,
             wiki: char.urls[1].url,
         };

@@ -1,6 +1,6 @@
-import * as ReactDOM from "react-dom";
+import * as ReactDOM from 'react-dom';
 
-const Portal = (props) => {
+const Portal = props => {
     return ReactDOM.createPortal(props.children, document.body);
 };
 
