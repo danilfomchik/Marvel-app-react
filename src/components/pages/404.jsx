@@ -1,5 +1,6 @@
+import {useNavigate} from 'react-router-dom';
+
 import ErrorMessage from '../errorMessage/ErrorMessage';
-import {Link, useNavigate} from 'react-router-dom';
 
 const Page404 = () => {
     const navigate = useNavigate();

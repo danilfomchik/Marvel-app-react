@@ -1,4 +1,5 @@
 import {Link, NavLink} from 'react-router-dom';
+
 import './appHeader.scss';
 
 const setActiveClass = ({isActive}) => (isActive ? 'app__menu-item active-link' : 'app__menu-item');

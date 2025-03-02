@@ -1,21 +1,22 @@
-import {useState, useEffect} from 'react';
+import {useCallback, useState} from 'react';
 
-import useMarvelService from '../services/MarvelService';
-
-const useSingleData = (param, getDataFunc, setProcess, clearError) => {
+const useSingleData = (getDataFunc, setProcess, clearError) => {
     const [dataInfo, setDataInfo] = useState(null);
 
-    const updateData = () => {
-        if (!param) {
-            return;
-        }
+    const updateData = useCallback(
+        param => {
+            if (!param) {
+                return;
+            }
 
-        clearError();
+            clearError();
 
-        getDataFunc(param)
-            .then(onCharLoaded)
-            .then(() => setProcess('confirmed'));
-    };
+            getDataFunc(param)
+                .then(onCharLoaded)
+                .then(() => setProcess('confirmed'));
+        },
+        [clearError, getDataFunc, setProcess],
+    );
 
     const onCharLoaded = dataInfo => {
         setDataInfo(dataInfo);

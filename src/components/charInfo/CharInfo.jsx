@@ -1,20 +1,20 @@
 import {useEffect} from 'react';
 import {Link} from 'react-router-dom';
-import {CSSTransition} from 'react-transition-group';
 
-import useMarvelService from '../../services/MarvelService';
 import useSingleData from '../../hooks/useSingleData';
+import useMarvelService from '../../services/MarvelService';
 import setSingleContent from '../../unils/setSingleContent';
-
 import './charInfo.scss';
 
-const CharInfo = props => {
-    const {loading, error, clearError, process, setProcess, getCharacter} = useMarvelService();
-    const {dataInfo, updateData} = useSingleData(props.charId, getCharacter, setProcess, clearError);
+const CharInfo = ({charId}) => {
+    const {clearError, process, setProcess, getCharacter} = useMarvelService();
+    const {dataInfo, updateData} = useSingleData(getCharacter, setProcess, clearError);
 
     useEffect(() => {
-        updateData();
-    }, [props.charId]);
+        if (charId !== dataInfo?.id) {
+            updateData(charId);
+        }
+    }, [charId, dataInfo?.id, updateData]);
 
     return <div className="char__info">{setSingleContent(process, View, dataInfo)}</div>;
 };

@@ -1,13 +1,10 @@
-import {useOutlet, Outlet} from 'react-router-dom';
 import {Helmet} from 'react-helmet';
 
-import ComicsList from '../comicsList/ComicsList';
-import ErrorBoundery from '../errorBoundary/ErrorBoundery';
 import AppBanner from '../appBanner/AppBanner';
+import ComicsList from '../comicsList/ComicsList';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
 
 const ComicsPage = () => {
-    const outlet = useOutlet();
-
     return (
         <>
             <Helmet>
@@ -17,9 +14,9 @@ const ComicsPage = () => {
             </Helmet>
 
             <AppBanner />
-            <ErrorBoundery>
+            <ErrorBoundary>
                 <ComicsList />
-            </ErrorBoundery>
+            </ErrorBoundary>
         </>
     );
 };

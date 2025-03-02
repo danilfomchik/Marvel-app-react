@@ -7,14 +7,14 @@ const useAllData = (getDataFunc, setProcess) => {
     const [charEnded, setCharEnded] = useState(false);
 
     const updateDataList = useCallback(
-        (offset, initial) => {
-            initial ? setNewItemLoading(false) : setNewItemLoading(true);
+        initial => {
+            setNewItemLoading(initial);
 
             getDataFunc(offset)
                 .then(onDataLoaded)
                 .then(() => setProcess('confirmed'));
         },
-        [offset],
+        [offset, getDataFunc, setProcess],
     );
 
     const onDataLoaded = newData => {
