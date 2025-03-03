@@ -1,9 +1,10 @@
-import {Link, NavLink} from 'react-router-dom';
+import {Link, NavLink, useLocation} from 'react-router-dom';
+
 import './appHeader.scss';
 
-const setActiveClass = ({isActive}) => (isActive ? 'app__menu-item active-link' : 'app__menu-item');
-
 const AppHeader = () => {
+    const location = useLocation();
+
     return (
         <header className="app__header">
             <h1 className="app__title">
@@ -12,11 +13,19 @@ const AppHeader = () => {
                 </Link>
             </h1>
             <nav className="app__menu">
-                <NavLink end className={setActiveClass} to="/">
+                <NavLink
+                    className={({isActive}) =>
+                        isActive || location.pathname.startsWith('/characters')
+                            ? 'app__menu-item active-link'
+                            : 'app__menu-item'
+                    }
+                    to="/">
                     Characters
                 </NavLink>
                 /
-                <NavLink className={setActiveClass} to="/comics">
+                <NavLink
+                    className={({isActive}) => (isActive ? 'app__menu-item active-link' : 'app__menu-item')}
+                    to="/comics">
                     Comics
                 </NavLink>
             </nav>

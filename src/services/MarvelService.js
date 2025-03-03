@@ -1,7 +1,7 @@
 import {useHttp} from '../hooks/http.hook';
 
-const _apiKey = `apikey=${process.env.REACT_APP_API_KEY}`;
-const _apiBase = process.env.REACT_APP_API_URL;
+const _apiKey = `apikey=${process.env.REACT_APP_MARVEL_API_KEY}`;
+const _apiBase = 'https://gateway.marvel.com/v1/public/';
 const _baseOffset = 210;
 
 const useMarvelService = () => {

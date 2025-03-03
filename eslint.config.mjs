@@ -1,9 +1,10 @@
 import js from '@eslint/js';
 import importPlugin from 'eslint-plugin-import';
-import reactHooks from 'eslint-plugin-react-hooks';
-import globals from 'globals';
-import reactRefresh from 'eslint-plugin-react-refresh';
 import prettier from 'eslint-plugin-prettier';
+import reactPlugin from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import globals from 'globals';
 
 export default [
     js.configs.recommended,
@@ -23,6 +24,7 @@ export default [
             },
         },
         plugins: {
+            reactPlugin,
             'react-hooks': reactHooks,
             'react-refresh': reactRefresh,
             import: importPlugin,
@@ -30,13 +32,15 @@ export default [
         },
         rules: {
             ...reactHooks.configs.recommended.rules,
+            'reactPlugin/jsx-uses-react': 'error',
+            'reactPlugin/jsx-uses-vars': 'error',
             'react/react-in-jsx-scope': 'off',
             'react/prop-types': 'off',
             'react-hooks/rules-of-hooks': 'error',
             'react-hooks/exhaustive-deps': 'warn',
             'no-console': 'error',
             'no-unused-vars': [
-                'warn',
+                'error',
                 {
                     vars: 'all',
                     args: 'after-used',

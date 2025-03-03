@@ -1,8 +1,5 @@
 import './skeleton.scss';
 
-// TODO: on mobile screen hide while character is not selected
-// TODO: add cross to clear char info
-// TODO: clear suggestion when input is empty
 const Skeleton = () => {
     return (
         <>

@@ -1,6 +1,5 @@
-import Spinner from '../components/spinner/Spinner';
 import ErrorMessage from '../components/errorMessage/ErrorMessage';
-import Skeleton from '../components/skeleton/Skeleton';
+import Spinner from '../components/spinner/Spinner';
 
 const setMultipleContent = (process, ViewComponent, newItemLoading) => {
     switch (process) {

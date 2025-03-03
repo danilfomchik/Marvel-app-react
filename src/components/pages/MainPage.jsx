@@ -1,16 +1,20 @@
-import {useState} from 'react';
+import {useCallback, useRef, useState} from 'react';
 import {Helmet} from 'react-helmet';
 
-import RandomChar from '../randomChar/RandomChar';
-import CharList from '../charList/CharList';
-import CharInfo from '../charInfo/CharInfo';
-import SearchCharacterForm from '../searchCharacterForm/SearchCharacterForm';
-import ErrorBoundery from '../errorBoundary/ErrorBoundery';
-
 import decoration from '../../resources/img/vision.png';
+import CharInfo from '../charInfo/CharInfo';
+import CharList from '../charList/CharList';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
+import RandomChar from '../randomChar/RandomChar';
+import SearchCharacterForm from '../searchCharacterForm/SearchCharacterForm';
 
 const MainPage = () => {
     const [charId, setCharId] = useState(null);
+    const itemRefs = useRef([]);
+
+    const onRemoveFocusOnItem = useCallback(() => {
+        itemRefs.current.forEach(item => item.classList.remove('char__item_selected'));
+    }, []);
 
     return (
         <>
@@ -19,21 +23,23 @@ const MainPage = () => {
                 <meta name="keywords" content="Marvel, Marvel information portal, Marvel characters, Marvel comics " />
                 <title>Marvel information portal</title>
             </Helmet>
-            <ErrorBoundery>
+
+            <ErrorBoundary>
                 <RandomChar />
-            </ErrorBoundery>
+            </ErrorBoundary>
+
             <div className="char__content">
-                <ErrorBoundery>
-                    <CharList setCharId={setCharId} charId={charId} />
-                </ErrorBoundery>
+                <ErrorBoundary>
+                    <CharList itemRefs={itemRefs} setCharId={setCharId} onRemoveFocusOnItem={onRemoveFocusOnItem} />
+                </ErrorBoundary>
 
                 <div className="char__info-container">
-                    <ErrorBoundery>
-                        <CharInfo charId={charId} />
-                    </ErrorBoundery>
-                    <ErrorBoundery>
+                    <ErrorBoundary>
+                        <CharInfo charId={charId} setCharId={setCharId} onRemoveFocusOnItem={onRemoveFocusOnItem} />
+                    </ErrorBoundary>
+                    <ErrorBoundary>
                         <SearchCharacterForm />
-                    </ErrorBoundery>
+                    </ErrorBoundary>
                 </div>
             </div>
             <img className="bg-decoration" src={decoration} alt="vision" />

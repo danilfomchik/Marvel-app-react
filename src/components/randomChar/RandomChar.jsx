@@ -1,32 +1,29 @@
-import {useState, useEffect, memo} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {CSSTransition} from 'react-transition-group';
 
 import useSingleData from '../../hooks/useSingleData';
-import setSingleContent from '../../unils/setSingleContent';
-
-import Spinner from '../spinner/Spinner';
+import mjolnir from '../../resources/img/mjolnir.png';
 import useMarvelService from '../../services/MarvelService';
-import ErrorMessage from '../errorMessage/ErrorMessage';
-
+import setSingleContent from '../../unils/setSingleContent';
 import './randomChar.scss';
 
-import mjolnir from '../../resources/img/mjolnir.png';
-
-const RandomChar = memo(() => {
+const RandomChar = () => {
     const randomId = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
     const [id, setId] = useState(randomId);
 
-    const {loading, error, process, setProcess, getCharacter, clearError} = useMarvelService();
-    const {dataInfo, updateData} = useSingleData(id, getCharacter, setProcess, clearError);
+    const {loading, process, setProcess, getCharacter, clearError} = useMarvelService();
+    const {dataInfo, updateData} = useSingleData(getCharacter, setProcess, clearError);
 
     useEffect(() => {
-        updateData();
-    }, [id]);
+        if (process === 'waiting') {
+            updateData(id);
+        }
+    }, [id, dataInfo?.id, process, updateData]);
 
     return (
         <div className="randomchar">
             <CSSTransition in={!loading} timeout={300} classNames="randomchar-animation">
-                <div className="randomchar__content">{setSingleContent(process, View, dataInfo)}</div>
+                <div className="randomchar__content">{setSingleContent(process, View, {data: dataInfo})}</div>
             </CSSTransition>
 
             <div className="randomchar__static">
@@ -36,14 +33,19 @@ const RandomChar = memo(() => {
                     Do you want to get to know him better?
                 </p>
                 <p className="randomchar__title">Or choose another one</p>
-                <button className="button button__main" onClick={() => setId(randomId)}>
+                <button
+                    className="button button__main"
+                    onClick={() => {
+                        setId(randomId);
+                        updateData(randomId);
+                    }}>
                     <div className="inner">try it</div>
                 </button>
                 <img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
             </div>
         </div>
     );
-});
+};
 
 const View = ({data}) => {
     const {name, description, thumbnail, homepage, wiki} = data;
@@ -73,4 +75,4 @@ const View = ({data}) => {
     );
 };
 
-export default RandomChar;
+export default memo(RandomChar);

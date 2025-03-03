@@ -1,14 +1,11 @@
-import React, {useState, useEffect, useRef, memo} from 'react';
-import {Formik, Form, Field, ErrorMessage as FormikErrorMessage} from 'formik';
-import * as yup from 'yup';
+import React, {memo, useState} from 'react';
 import {Link} from 'react-router-dom';
 
-import useMarvelService from '../../services/MarvelService';
 import useSingleData from '../../hooks/useSingleData';
-import Spinner from '../spinner/Spinner';
-import ErrorMessage from '../errorMessage/ErrorMessage';
+import useMarvelService from '../../services/MarvelService';
 import Portal from '../Portal/Portal';
-
+import ErrorMessage from '../errorMessage/ErrorMessage';
+import Spinner from '../spinner/Spinner';
 import './search-character-form.scss';
 
 const setSingleContent = (process, ViewComponent, data, queryName) => {
@@ -28,16 +25,20 @@ const setSingleContent = (process, ViewComponent, data, queryName) => {
 
 const SearchCharacterForm = memo(() => {
     const [queryName, setQueryName] = useState('');
-    const [list, setList] = useState([]);
     const [isListVisible, setIsListVisible] = useState(false);
 
-    const {loading, error, process, setProcess, clearError, getCharacterByName} = useMarvelService();
+    const {process, setProcess, clearError, getCharacterByName} = useMarvelService();
+    const {dataInfo, updateData, clearDataInfo} = useSingleData(getCharacterByName, setProcess, clearError);
 
-    const {dataInfo, updateData} = useSingleData(queryName, getCharacterByName, setProcess, clearError);
+    const onInputChange = e => {
+        setQueryName(e.target.value);
 
-    useEffect(() => {
-        updateData();
-    }, [queryName]);
+        if (e.target.value) {
+            updateData(e.target.value);
+        } else {
+            clearDataInfo();
+        }
+    };
 
     return (
         <div className={`char__search-form ${isListVisible ? 'active' : ''}`}>
@@ -50,9 +51,7 @@ const SearchCharacterForm = memo(() => {
                     id="name"
                     type="text"
                     placeholder="Enter name"
-                    onChange={e => {
-                        setQueryName(e.target.value);
-                    }}
+                    onChange={onInputChange}
                     onFocus={() => setIsListVisible(true)}
                     value={queryName}
                 />
