@@ -18,11 +18,16 @@ const useSingleData = (getDataFunc, setProcess, clearError) => {
         [clearError, getDataFunc, setProcess],
     );
 
+    const clearDataInfo = () => {
+        setProcess('waiting');
+        setDataInfo(null);
+    };
+
     const onCharLoaded = dataInfo => {
         setDataInfo(dataInfo);
     };
 
-    return {dataInfo, updateData};
+    return {dataInfo, updateData, clearDataInfo};
 };
 
 export default useSingleData;

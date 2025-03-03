@@ -28,7 +28,17 @@ const SearchCharacterForm = memo(() => {
     const [isListVisible, setIsListVisible] = useState(false);
 
     const {process, setProcess, clearError, getCharacterByName} = useMarvelService();
-    const {dataInfo, updateData} = useSingleData(getCharacterByName, setProcess, clearError);
+    const {dataInfo, updateData, clearDataInfo} = useSingleData(getCharacterByName, setProcess, clearError);
+
+    const onInputChange = e => {
+        setQueryName(e.target.value);
+
+        if (e.target.value) {
+            updateData(e.target.value);
+        } else {
+            clearDataInfo();
+        }
+    };
 
     return (
         <div className={`char__search-form ${isListVisible ? 'active' : ''}`}>
@@ -41,10 +51,7 @@ const SearchCharacterForm = memo(() => {
                     id="name"
                     type="text"
                     placeholder="Enter name"
-                    onChange={e => {
-                        setQueryName(e.target.value);
-                        updateData(e.target.value);
-                    }}
+                    onChange={onInputChange}
                     onFocus={() => setIsListVisible(true)}
                     value={queryName}
                 />

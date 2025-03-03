@@ -23,7 +23,7 @@ const RandomChar = () => {
     return (
         <div className="randomchar">
             <CSSTransition in={!loading} timeout={300} classNames="randomchar-animation">
-                <div className="randomchar__content">{setSingleContent(process, View, dataInfo)}</div>
+                <div className="randomchar__content">{setSingleContent(process, View, {data: dataInfo})}</div>
             </CSSTransition>
 
             <div className="randomchar__static">

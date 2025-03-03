@@ -1,8 +1,8 @@
-import Spinner from '../components/spinner/Spinner';
 import ErrorMessage from '../components/errorMessage/ErrorMessage';
 import Skeleton from '../components/skeleton/Skeleton';
+import Spinner from '../components/spinner/Spinner';
 
-const setSingleContent = (process, ViewComponent, data) => {
+const setSingleContent = (process, ViewComponent, {...props}) => {
     switch (process) {
         case 'waiting':
             return <Skeleton />;
@@ -11,7 +11,7 @@ const setSingleContent = (process, ViewComponent, data) => {
         case 'error':
             return <ErrorMessage />;
         case 'confirmed':
-            return <ViewComponent data={data} />;
+            return <ViewComponent {...props} />;
         default:
             throw new Error('Unexpected process state');
     }

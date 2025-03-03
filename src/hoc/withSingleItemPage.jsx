@@ -22,7 +22,7 @@ const withSingleItemPage = (WrappedComponent, dataType) => {
             }
         }, [updateData, itemId, process]);
 
-        return <>{setSingleContent(process, WrappedComponent, dataInfo)}</>;
+        return <>{setSingleContent(process, WrappedComponent, {data: dataInfo})}</>;
     };
 };
 

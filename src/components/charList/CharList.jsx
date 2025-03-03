@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, {useCallback, useEffect, useMemo, useRef} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 import useAllData from '../../hooks/useAllData';
@@ -8,7 +8,7 @@ import setMultipleContent from '../../unils/setMultipleContent';
 import CharItem from '../charItem/CharItem';
 import './charList.scss';
 
-const CharList = ({setCharId}) => {
+const CharList = ({itemRefs, setCharId, onRemoveFocusOnItem}) => {
     const {error, process, setProcess, getAllCharacters} = useMarvelService();
     const {data, newItemLoading, charEnded, updateDataList} = useAllData(getAllCharacters, setProcess);
 
@@ -18,13 +18,14 @@ const CharList = ({setCharId}) => {
         }
     }, [data.length, process, updateDataList]);
 
-    const itemRefs = useRef([]);
-
-    const focusOnItem = id => {
-        itemRefs.current.forEach(item => item.classList.remove('char__item_selected'));
-        itemRefs.current[id].classList.add('char__item_selected');
-        itemRefs.current[id].focus();
-    };
+    const focusOnItem = useCallback(
+        id => {
+            onRemoveFocusOnItem();
+            itemRefs?.current[id].classList.add('char__item_selected');
+            itemRefs?.current[id].focus();
+        },
+        [itemRefs, onRemoveFocusOnItem],
+    );
 
     const renderCards = useCallback(
         data => {
@@ -53,7 +54,7 @@ const CharList = ({setCharId}) => {
                 </ul>
             );
         },
-        [setCharId],
+        [focusOnItem, itemRefs, setCharId],
     );
 
     const elements = useMemo(() => {
