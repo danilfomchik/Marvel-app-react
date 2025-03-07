@@ -48,7 +48,10 @@ This is a **React-based** application that allows users to explore Marvel charac
     ```
 
 ## 📸 Screenshots
-
+<details>
+<summary>Screenshots</summary>
+<br>
+    
 Home Page:
 ![Home Page](./public/screenshots/homepage.png)
 Selected Character:
@@ -59,6 +62,7 @@ Single Comic Page:
 ![Single Comic Page](./public/screenshots/comic-page.png)
 Single Character Page:
 ![Single Character Page](./public/screenshots/char-page.png)
+</details>
 
 ## 📜 License
 
