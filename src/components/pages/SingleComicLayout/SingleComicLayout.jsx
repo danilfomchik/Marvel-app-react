@@ -1,5 +1,5 @@
-import {useNavigate, Link} from 'react-router-dom';
 import {Helmet} from 'react-helmet';
+import {Link, useNavigate} from 'react-router-dom';
 
 import './singleComicLayout.scss';
 

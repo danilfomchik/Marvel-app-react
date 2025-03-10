@@ -48,6 +48,7 @@ This is a **React-based** application that allows users to explore Marvel charac
     ```
 
 ## 📸 Screenshots
+
 <details>
 <summary>Screenshots</summary>
 <br>
