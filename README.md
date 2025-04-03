@@ -47,23 +47,9 @@ This is a **React-based** application that allows users to explore Marvel charac
     npm start
     ```
 
-## 📸 Screenshots
+## 📸 Project Demo
 
-<details>
-<summary>Screenshots</summary>
-<br>
-    
-Home Page:
-![Home Page](./public/screenshots/homepage.png)
-Selected Character:
-![Selected Character](./public/screenshots/selected-char.png)
-Comics Page:
-![Comics Page](./public/screenshots/comics-page.png)
-Single Comic Page:
-![Single Comic Page](./public/screenshots/comic-page.png)
-Single Character Page:
-![Single Character Page](./public/screenshots/char-page.png)
-</details>
+![Project Demo](./public/project_demo.gif)
 
 ## 📜 License
 
